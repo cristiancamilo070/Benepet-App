@@ -5,8 +5,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      itemBuilder: null
-      );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('daatotototoost'),
+      ),
+    );
   }
 }
