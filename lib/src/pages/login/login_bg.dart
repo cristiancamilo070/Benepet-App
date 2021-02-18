@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class WelcomeBackground extends StatelessWidget {
+class LoginBackground extends StatelessWidget {
   final Widget child;
-  const WelcomeBackground({
+  const LoginBackground({
     Key key,
     @required this.child,
   }) : super(key: key);

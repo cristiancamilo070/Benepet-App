@@ -7,10 +7,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 
 class ScrollPage extends StatelessWidget {
-  
+
+  final Color primario=Color(0XFF364f6b);
+  final Color secundario=Color(0XFF3fc1c9);
+  final Color terciario=Color(0XFFfc5185);
+  final Color background=Color(0XFFf5f5f5);
+
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       body: Container(
         child: PageView(
@@ -35,7 +39,7 @@ return WelcomeBackground(
       SizedBox(height: size.height*0.1,),
 //-----------------------------------LOGO INICIAL---------------------------------------------------------------      
      SvgPicture.asset(
-          'assets/svg/8.svg',
+          'assets/svg/pet-friendly.svg',
           height: size.height*0.45,
       )
       ,
@@ -49,7 +53,7 @@ return WelcomeBackground(
                   fontSize: 50.0,
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w600,//anchura titulo
-                  color: Color(0XFF30475e),
+                  color: primario,
                   height: 1,
                   ),
                   textAlign: TextAlign.center,
@@ -59,7 +63,7 @@ return WelcomeBackground(
 
               Text('BENEPET es una aplicación movil desarrollada para la prevención del abandono animal!',
                 style: TextStyle(
-                  color: Color(0XFFe8e8e8),
+                  color: primario,
                   letterSpacing: 1.2,
                   fontSize: 16.0,
                   height: 1.3),
@@ -79,12 +83,10 @@ return WelcomeBackground(
               RaisedButton(
               elevation: 6,
               splashColor: Color(0XFFefbbcf),
-              onPressed: ()=> Navigator.push(context, MaterialPageRoute(
-              builder: (context) => HomePage()
-               )
-               ), 
+              onPressed: ()=> Navigator.pushNamed(context,'login'),
+               
               child: Text('Ingresar!'),
-              color: Color(0XFF30475e),
+              color: terciario,
               textColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
               padding: EdgeInsets.all(15) ,
@@ -92,27 +94,29 @@ return WelcomeBackground(
              
               SizedBox(width: size.height*0.08,),
 
-              SvgPicture.asset('assets/svg/fast-forward.svg',height: size.height*0.09)
+              SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: size.height*0.09)
               ]
             ),
           )
           ,
           
       SizedBox(height: size.height*0.01,),
-     //Subtitulo Botón
+//------------------------------------------------Subtitulo Botón-------------------------------------------------
        Container(
           // padding: EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(
             children: <Widget>[
               SizedBox(
-                width: size.height*0.25,
-                              child: Text(
-                  'Ingresar ya!',
+                width: size.height*0.3,
+                child: Text(
+                  'Ya tengo cuenta!',
                   style: TextStyle(
-                      color: Color(0XFFe8e8e8),
+                      color: primario,
                       letterSpacing: 1.2,
                       fontSize: 15.0,
-                      height: 1.3
+                      height: 1.3,
+                      fontWeight: FontWeight.bold
+                      
                       ),
                   textAlign: TextAlign.center,
                 ),
@@ -135,7 +139,7 @@ Widget _pagina2(BuildContext context) {
       SizedBox(height: size.height*0.1,),
 //-----------------------------------LOGO INICIAL---------------------------------------------------------------      
      SvgPicture.asset(
-          'assets/svg/7.svg',
+          'assets/svg/cat.svg',
           height: size.height*0.45,
       )
       ,
@@ -149,17 +153,17 @@ Widget _pagina2(BuildContext context) {
                   fontSize: 50.0,
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w600,//anchura titulo
-                  color: Color(0XFF30475e),
+                  color: primario,
                   height: 1,
                   ),
                   textAlign: TextAlign.center,
                   ),
 
-              SizedBox(height: size.height*0.01,),
+              SizedBox(height: size.height*0.02,),
 
               Text('Realiza nuestro proceso de adopción para encontrar compatibilidades entre tu futuro peludito y tú.',
                 style: TextStyle(
-                  color: Color(0XFFe8e8e8),
+                  color: primario,
                   letterSpacing: 1.2,
                   fontSize: 16.0,
                   height: 1.3),
@@ -184,7 +188,7 @@ Widget _pagina2(BuildContext context) {
                )
                ), 
               child: Text('Adoptar!'),
-              color: Color(0XFF30475e),
+              color: terciario,
               textColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
               padding: EdgeInsets.all(15) ,
@@ -192,7 +196,7 @@ Widget _pagina2(BuildContext context) {
              
               SizedBox(width: size.height*0.08,),
 
-              SvgPicture.asset('assets/svg/fast-forward.svg',height: size.height*0.09)
+              SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: size.height*0.09)
               ]
             ),
           )
@@ -205,11 +209,12 @@ Widget _pagina2(BuildContext context) {
           child: Column(
             children: <Widget>[
               SizedBox(
-                width: size.height*0.24,
+                width: size.height*0.3,
                               child: Text(
                   'Continuar con el ingreso como adoptante.',
                   style: TextStyle(
-                      color: Color(0XFFe8e8e8),
+                      fontWeight: FontWeight.bold,
+                      color: primario,
                       letterSpacing: 1.2,
                       fontSize: 15.0,
                       height: 1.3
@@ -235,7 +240,7 @@ Widget _pagina3(BuildContext context) {
       SizedBox(height: size.height*0.1,),
 //-----------------------------------LOGO INICIAL---------------------------------------------------------------      
      SvgPicture.asset(
-          'assets/svg/2.svg',
+          'assets/svg/animal-shelter.svg',
           height: size.height*0.45,
       )
       ,
@@ -249,7 +254,7 @@ Widget _pagina3(BuildContext context) {
                   fontSize: 45.0,
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w600,//anchura titulo
-                  color: Color(0XFF30475e),
+                  color: primario,
                   height: 1,
                   ),
                   textAlign: TextAlign.center,
@@ -259,7 +264,7 @@ Widget _pagina3(BuildContext context) {
 
               Text('Utiliza los procesos de nuestra fundación para encontrarle un dueño ideal a tus peluditos',
                 style: TextStyle(
-                  color: Color(0XFFe8e8e8),
+                  color: primario,
                   letterSpacing: 1.2,
                   fontSize: 16.0,
                   height: 1.3),
@@ -284,7 +289,7 @@ Widget _pagina3(BuildContext context) {
                )
                ), 
               child: Text('Postularme'),
-              color: Color(0XFF30475e),
+              color: terciario,
               textColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
               padding: EdgeInsets.all(15) ,
@@ -305,11 +310,12 @@ Widget _pagina3(BuildContext context) {
           child: Column(
             children: <Widget>[
               SizedBox(
-                width: size.height*0.24,
+                width: size.height*0.26,
                               child: Text(
                   'Continuar con el ingreso como adoptante.',
                   style: TextStyle(
-                      color: Color(0XFFe8e8e8),
+                      color: primario,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,
                       fontSize: 15.0,
                       height: 1.3
