@@ -1,6 +1,7 @@
 import 'package:benepet/src/pages/login/login_bg.dart';
+import 'package:benepet/src/widgets/dropdown_widget.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
-import 'package:benepet/src/widgets/text_fild_widget.dart';
+import 'package:benepet/src/widgets/textfild_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,11 +31,15 @@ class _LoginState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
 
+  //COLORES--------------------
   final Color primario=Color(0XFF364f6b);
   final Color secundario=Color(0XFF3fc1c9);
   final Color terciario=Color(0XFFfc5185);
   final Color background=Color(0XFFf5f5f5);
 
+  //DROPDOWN-------------------
+  List<String> _opcionesIngreso = ['Adoptante','Rescatista'];
+  String _opcionSeleccionada = 'Adoptante';
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +54,14 @@ class _LoginState extends State<LoginScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                logo(),
-                welcomeTextRow(),
-                signInTextRow(),
-                form(),
-                forgetPassTextRow(),
-                SizedBox(height: _height / 12),
-                button(),
-                signUpTextRow(),
+                _logo(),
+                _welcomeText(),
+                _subWelcomeText(),
+                _form(),
+                _forgetPassTextRow(),
+                SizedBox(height: _height*0.05),
+                _botonLogin(),
+                _signUpTextRow(),
               ],
             ),
           ),
@@ -65,8 +70,7 @@ class _LoginState extends State<LoginScreen> {
     );
   }
 
-
-  Widget logo() {
+  Widget _logo() {
     //double height = MediaQuery.of(context).size.height;
     return Container(
           alignment: Alignment.bottomCenter,
@@ -79,10 +83,11 @@ class _LoginState extends State<LoginScreen> {
         );
   }
 
-  Widget welcomeTextRow() {
+  Widget _welcomeText() {
     return Container(
       margin: EdgeInsets.only(left: _width / 20, top: _height / 100),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             "Bienvenido",
@@ -97,10 +102,11 @@ class _LoginState extends State<LoginScreen> {
     );
   }
 
-  Widget signInTextRow() {
+  Widget _subWelcomeText() {
     return Container(
       margin: EdgeInsets.only(left: _width / 15.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             "Ingresa a Benepet!",
@@ -114,7 +120,7 @@ class _LoginState extends State<LoginScreen> {
     );
   }
 
-  Widget form() {
+  Widget _form() {
     return Container(
       margin: EdgeInsets.only(
           left: _width / 12.0,
@@ -127,6 +133,8 @@ class _LoginState extends State<LoginScreen> {
             emailTextFormField(),
             SizedBox(height: _height / 40.0),
             passwordTextFormField(),
+            SizedBox(height: _height / 40.0),
+            _crearDropdown()
           ],
         ),
       ),
@@ -134,26 +142,49 @@ class _LoginState extends State<LoginScreen> {
   }
 
   Widget emailTextFormField() {
-    return CustomTextField(
+    return Textfild(
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
       icon: Icons.email,
+      iconSufix: Icons.alternate_email,
       hint: "Email ID",
     );
 
   }
 
   Widget passwordTextFormField() {
-    return CustomTextField(
-      keyboardType: TextInputType.emailAddress,
+    return Textfild(
+      keyboardType: TextInputType.visiblePassword,
       textEditingController: passwordController,
       icon: Icons.lock,
+      iconSufix: Icons.screen_lock_portrait,
       obscureText: true,
       hint: "Password",
     );
   }
+//-------------------DROPDOWN-----------------------------------------------------------
 
-  Widget forgetPassTextRow() {
+List<DropdownMenuItem<String>> getOpciones(){
+    List<DropdownMenuItem<String>> lista=new List();
+    _opcionesIngreso.forEach((item) { 
+      lista.add(DropdownMenuItem(
+        child: Text(item),
+        value: item,
+      ));
+    });
+    return lista;
+  }
+
+  Widget _crearDropdown(){
+  return DropdownFild(
+    icon:Icons.arrow_drop_down_circle ,
+    list: getOpciones(),
+    initialValue: _opcionSeleccionada, 
+    iconSufix: Icons.people_outline,   
+  );
+  }
+//------------------------FORGER PASSWORD------------------------------------------------------------
+  Widget _forgetPassTextRow() {
     return Container(
       margin: EdgeInsets.only(top: _height / 40.0),
       child: Row(
@@ -161,19 +192,19 @@ class _LoginState extends State<LoginScreen> {
         children: <Widget>[
           Text(
             "Forgot your password?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 12: 10)),
+            style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 12: 10),color: primario),
           ),
           SizedBox(
             width: 5,
           ),
           GestureDetector(
             onTap: () {
-              print("Routing");
+              print("Routing");// RUTA OF FORGOTTEN PASSWORD 
             },
             child: Text(
               "Recover",
               style: TextStyle(
-                  fontWeight: FontWeight.w600, color: Colors.orange[200]),
+                  fontWeight: FontWeight.w600, color: secundario)
             ),
           )
         ],
@@ -181,7 +212,7 @@ class _LoginState extends State<LoginScreen> {
     );
   }
 
-  Widget button() {
+  Widget _botonLogin() {
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -192,7 +223,7 @@ class _LoginState extends State<LoginScreen> {
               .showSnackBar(SnackBar(content: Text('Login Successful')));
 
       },
-      textColor: Colors.white,
+      textColor: background,
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
@@ -200,16 +231,16 @@ class _LoginState extends State<LoginScreen> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           gradient: LinearGradient(
-            colors: <Color>[Colors.orange[200], Colors.pinkAccent],
+            colors: <Color>[terciario.withOpacity(0.5), terciario],
           ),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN IN',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
+        child: Text('Login',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
       ),
     );
   }
 
-  Widget signUpTextRow() {
+  Widget _signUpTextRow() {
     return Container(
       margin: EdgeInsets.only(top: _height / 120.0),
       child: Row(
@@ -217,20 +248,20 @@ class _LoginState extends State<LoginScreen> {
         children: <Widget>[
           Text(
             "Don't have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 12: 10)),
+            style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 12: 10),color: primario),
           ),
           SizedBox(
             width: 5,
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context,'/');
+             // Navigator.pushNamed(context,'/');
               print("Routing to Sign up screen");
             },
             child: Text(
               "Sign up",
               style: TextStyle(
-                  fontWeight: FontWeight.w800, color: Colors.orange[200], fontSize: _large? 19: (_medium? 17: 15)),
+                  fontWeight: FontWeight.w800, color: primario, fontSize: _large? 19: (_medium? 17: 15)),
             ),
           )
         ],

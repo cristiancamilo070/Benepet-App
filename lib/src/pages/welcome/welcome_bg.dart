@@ -9,7 +9,7 @@ class WelcomeBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color primario=Color(0XFF364f6b);
+   // final Color primario=Color(0XFF364f6b);
     final Color secundario=Color(0XFF3fc1c9);
     final Color terciario=Color(0XFFfc5185);
     final Color background=Color(0XFFf5f5f5);

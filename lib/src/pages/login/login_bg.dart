@@ -48,7 +48,7 @@ class LoginBackground extends StatelessWidget {
             child: Image.asset(
               "assets/img/main_bottom.png",
               width: size.width * 0.3,
-              color: secundario,
+              color: primario,
             ),
           ),
           
