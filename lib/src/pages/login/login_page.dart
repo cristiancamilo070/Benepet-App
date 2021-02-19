@@ -103,7 +103,7 @@ class _LoginState extends State<LoginScreen> {
       child: Row(
         children: <Widget>[
           Text(
-            "Sign in to your account",
+            "Ingresa a Benepet!",
             style: TextStyle(
               fontWeight: FontWeight.w200,
               fontSize: _large? 20 : (_medium? 17.5 : 15),
