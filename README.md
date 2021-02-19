@@ -1,4 +1,4 @@
-# benepet
+# Benepet Aplicación movil desarrollada en Flutter
 
 A new Flutter project.
 
