@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class WelcomeBackground extends StatelessWidget {
+class SignUpBackground extends StatelessWidget {
   final Widget child;
-  const WelcomeBackground({
+  const SignUpBackground({
     Key key,
     @required this.child,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-   // final Color primario=Color(0XFF364f6b);
+    final Color primario=Color(0XFF364f6b);
     final Color secundario=Color(0XFF3fc1c9);
     final Color terciario=Color(0XFFfc5185);
     final Color background=Color(0XFFf5f5f5);
@@ -21,23 +21,13 @@ class WelcomeBackground extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          // Positioned(//Izquierda arriba
-          //   top: 0,
-          //   left: 0,
-          //   child: Image.asset(
-          //     "assets/img/main_top.png",
-          //     color: terciario,
-          //     width: size.width * 0.4,
-          //   ),
-          // ),
-
-          Positioned(//Derecha arriba
+          Positioned(//Izquierda arriba
             top: 0,
-            right: 0,
+            left: 0,
             child: Image.asset(
-              "assets/img/top_rigth.png",
+              "assets/img/main_top.png",
               color: terciario,
-              width: size.width * 0.395,
+              width: size.width * 0.4,
             ),
           ),
 
@@ -58,7 +48,7 @@ class WelcomeBackground extends StatelessWidget {
             child: Image.asset(
               "assets/img/main_bottom.png",
               width: size.width * 0.3,
-              color: secundario,
+              color: primario,
             ),
           ),
           

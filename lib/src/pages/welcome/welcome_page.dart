@@ -1,13 +1,18 @@
 
-//import 'package:benepet/src/items/welcome_items.dart';
-import 'package:benepet/src/pages/home_page.dart';
 import 'package:benepet/src/pages/welcome/welcome_bg.dart';
+import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
+// ignore: must_be_immutable
 class ScrollPage extends StatelessWidget {
 
+  double _height;
+  double _width;
+  double _pixelRatio;
+  bool _large;
+  bool _medium;
   final Color primario=Color(0XFF364f6b);
   final Color secundario=Color(0XFF3fc1c9);
   final Color terciario=Color(0XFFfc5185);
@@ -15,6 +20,11 @@ class ScrollPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _height = MediaQuery.of(context).size.height;
+     _width = MediaQuery.of(context).size.width;
+     _pixelRatio = MediaQuery.of(context).devicePixelRatio;
+     _large =  ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
+     _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
     return Scaffold(
       body: Container(
         child: PageView(
@@ -77,30 +87,45 @@ return WelcomeBackground(
       SizedBox(height: size.height*0.01,),
 //-----------------------------------BOTON Y FLECHA---------------------------------------------------------------
       Container(
-            child: Row(
-              children: <Widget>[
-              SizedBox(width: size.height*0.2),
-              RaisedButton(
-              elevation: 6,
-              splashColor: Color(0XFFefbbcf),
-              onPressed: ()=> Navigator.pushNamed(context,'login'),
-               
-              child: Text('Ingresar!'),
-              color: terciario,
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-              padding: EdgeInsets.all(15) ,
+        child: Row(
+          children: <Widget>[
+          SizedBox(width: _width/2.8),
+          RaisedButton(
+            elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+            onPressed: () {
+              Navigator.pushNamed(context, 'login');
+              Scaffold
+                  .of(context)
+                  .showSnackBar(SnackBar(content: Text('Login Successful')));
+            },
+            textColor: background,
+            padding: EdgeInsets.all(0.0),
+            child: Container(
+              height:_height /20,
+              alignment: Alignment.center,
+              width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                gradient: LinearGradient(
+                  colors: <Color>[terciario.withOpacity(0.5), terciario],
+                ),
               ),
+              
+              padding: const EdgeInsets.all(12.0),
+              child: Text('Ingresar',style: TextStyle(color: background,fontSize: _large? 14: (_medium? 12: 10))),
+            ),
+          ),
              
-              SizedBox(width: size.height*0.08,),
+          SizedBox(width: _width/6,),
 
-              SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: size.height*0.09)
+          SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: _height*0.09)
               ]
             ),
           )
           ,
           
-      SizedBox(height: size.height*0.01,),
+      SizedBox(height: _height*0.001,),
 //------------------------------------------------Subtitulo Botón-------------------------------------------------
        Container(
           // padding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -113,10 +138,9 @@ return WelcomeBackground(
                   style: TextStyle(
                       color: primario,
                       letterSpacing: 1.2,
-                      fontSize: 15.0,
+                      fontSize:_large? 14: (_medium? 12: 10),
                       height: 1.3,
-                      fontWeight: FontWeight.bold
-                      
+                      fontWeight: FontWeight.w400
                       ),
                   textAlign: TextAlign.center,
                 ),
@@ -148,7 +172,7 @@ Widget _pagina2(BuildContext context) {
           padding: EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(
             children: <Widget>[
-              Text('¡Conoce a tu peliduto ideal!',
+              Text('¡Conoce a tu peludito ideal!',
                 style: TextStyle(
                   fontSize: 50.0,
                   fontStyle: FontStyle.normal,
@@ -174,35 +198,47 @@ Widget _pagina2(BuildContext context) {
         ),
       
         
-      SizedBox(height: size.height*0.02,),
+      SizedBox(height: _height*0.02,),
 //-----------------------------------BOTON Y FLECHA---------------------------------------------------------------
       Container(
             child: Row(
               children: <Widget>[
-              SizedBox(width: size.height*0.2),
+              SizedBox(width: _width/2.8),
               RaisedButton(
-              elevation: 6,
-              splashColor: Color(0XFFefbbcf),
-              onPressed: ()=> Navigator.push(context, MaterialPageRoute(
-              builder: (context) => HomePage()
-               )
-               ), 
-              child: Text('Adoptar!'),
-              color: terciario,
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-              padding: EdgeInsets.all(15) ,
-              ),
+                elevation: 0,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'signin');
+                  Scaffold
+                      .of(context)
+                      .showSnackBar(SnackBar(content: Text('Login Successful')));
+                },
+                textColor: background,
+                padding: EdgeInsets.all(0.0),
+                child: Container(
+                  height:_height /20,
+                  alignment: Alignment.center,
+                  width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    gradient: LinearGradient(
+                      colors: <Color>[terciario.withOpacity(0.5), terciario],
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text('Registrarme',style: TextStyle(color: background,fontSize: _large? 14: (_medium? 12: 10))),
+                ),
+                
+                ),
              
-              SizedBox(width: size.height*0.08,),
+          SizedBox(width: _width/6),
 
-              SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: size.height*0.09)
-              ]
-            ),
+          SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: _height*0.09)
+          ]
+            )
           )
           ,
-          
-      SizedBox(height: size.height*0.01,),
+      SizedBox(height: _height*0.001,),
      //Subtitulo Botón
        Container(
           // padding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -213,10 +249,10 @@ Widget _pagina2(BuildContext context) {
                               child: Text(
                   'Continuar con el ingreso como adoptante.',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       color: primario,
                       letterSpacing: 1.2,
-                      fontSize: 15.0,
+                      fontSize:_large? 14: (_medium? 12: 10),
                       height: 1.3
                       ),
                   textAlign: TextAlign.center,
@@ -278,32 +314,37 @@ Widget _pagina3(BuildContext context) {
       SizedBox(height: size.height*0.02,),
 //-----------------------------------BOTON Y FLECHA---------------------------------------------------------------
       Container(
-            child: Row(
-              children: <Widget>[
-              SizedBox(width: size.height*0.19),
-              RaisedButton(
-              elevation: 6,
-              splashColor: Color(0XFFefbbcf),
-              onPressed: ()=> Navigator.push(context, MaterialPageRoute(
-              builder: (context) => HomePage()
-               )
-               ), 
-              child: Text('Postularme'),
-              color: terciario,
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-              padding: EdgeInsets.all(15) ,
+        child:Center(
+          child: RaisedButton(
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+              onPressed: () {
+                Navigator.pushNamed(context, 'signup');
+                Scaffold
+                    .of(context)
+                    .showSnackBar(SnackBar(content: Text('Login Successful')));
+              },
+              textColor: background,
+              padding: EdgeInsets.all(0.0),
+              child: Container(
+                height:_height /20,
+                alignment: Alignment.center,
+                width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  gradient: LinearGradient(
+                    colors: <Color>[terciario.withOpacity(0.5), terciario],
+                  ),
+                ),
+                
+                padding: const EdgeInsets.all(12.0),
+                child: Text('Ingresar',style: TextStyle(color: background,fontSize: _large? 14: (_medium? 12: 10))),
               ),
-             
-              //SizedBox(width: size.height*0.08,),
-
-              //SvgPicture.asset('assets/svg/fast-forward.svg',height: size.height*0.09)
-              ]
             ),
-          )
-          ,
+        ) 
+          ),
           
-      SizedBox(height: size.height*0.01,),
+      SizedBox(height: _height*0.001,),
      //Subtitulo Botón
        Container(
           // padding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -312,12 +353,12 @@ Widget _pagina3(BuildContext context) {
               SizedBox(
                 width: size.height*0.26,
                               child: Text(
-                  'Continuar con el ingreso como adoptante.',
+                  'Continuar con el ingreso como rescatista',
                   style: TextStyle(
                       color: primario,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       letterSpacing: 1.2,
-                      fontSize: 15.0,
+                      fontSize:_large? 14: (_medium? 12: 10),
                       height: 1.3
                       ),
                   textAlign: TextAlign.center,

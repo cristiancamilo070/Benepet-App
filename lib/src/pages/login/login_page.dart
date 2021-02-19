@@ -111,7 +111,8 @@ class _LoginState extends State<LoginScreen> {
           Text(
             "Ingresa a Benepet!",
             style: TextStyle(
-              fontWeight: FontWeight.w200,
+              color: primario,
+              fontWeight: FontWeight.w300,
               fontSize: _large? 20 : (_medium? 17.5 : 15),
             ),
           ),
@@ -147,7 +148,7 @@ class _LoginState extends State<LoginScreen> {
       textEditingController: emailController,
       icon: Icons.email,
       iconSufix: Icons.alternate_email,
-      hint: "Email ID",
+      hint: "Email",
     );
 
   }
@@ -159,7 +160,7 @@ class _LoginState extends State<LoginScreen> {
       icon: Icons.lock,
       iconSufix: Icons.screen_lock_portrait,
       obscureText: true,
-      hint: "Password",
+      hint: "Contraseña",
     );
   }
 //-------------------DROPDOWN-----------------------------------------------------------
@@ -191,8 +192,8 @@ List<DropdownMenuItem<String>> getOpciones(){
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Forgot your password?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 12: 10),color: primario),
+            "Olvide mi contraseña",
+            style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 13: 10),color: primario),
           ),
           SizedBox(
             width: 5,
@@ -202,7 +203,7 @@ List<DropdownMenuItem<String>> getOpciones(){
               print("Routing");// RUTA OF FORGOTTEN PASSWORD 
             },
             child: Text(
-              "Recover",
+              "Recuperar",
               style: TextStyle(
                   fontWeight: FontWeight.w600, color: secundario)
             ),
@@ -211,7 +212,7 @@ List<DropdownMenuItem<String>> getOpciones(){
       ),
     );
   }
-
+//------------------------BOTON LOGIN ---------------------------------------------
   Widget _botonLogin() {
     return RaisedButton(
       elevation: 0,
@@ -226,16 +227,19 @@ List<DropdownMenuItem<String>> getOpciones(){
       textColor: background,
       padding: EdgeInsets.all(0.0),
       child: Container(
+        height:_height /20,
         alignment: Alignment.center,
         width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           gradient: LinearGradient(
             colors: <Color>[terciario.withOpacity(0.5), terciario],
           ),
         ),
+        
         padding: const EdgeInsets.all(12.0),
-        child: Text('Login',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
+        child: Text('Ingresar',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
       ),
     );
   }
@@ -247,7 +251,7 @@ List<DropdownMenuItem<String>> getOpciones(){
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Don't have an account?",
+            "¿No tienes una cuenta?",
             style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 12: 10),color: primario),
           ),
           SizedBox(
@@ -259,7 +263,7 @@ List<DropdownMenuItem<String>> getOpciones(){
               print("Routing to Sign up screen");
             },
             child: Text(
-              "Sign up",
+              "Registrarme",
               style: TextStyle(
                   fontWeight: FontWeight.w800, color: primario, fontSize: _large? 19: (_medium? 17: 15)),
             ),

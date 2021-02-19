@@ -1,5 +1,7 @@
 import 'package:benepet/src/pages/home_page.dart';
 import 'package:benepet/src/pages/login/login_page.dart';
+import 'package:benepet/src/pages/sign_up/signup_bg.dart';
+import 'package:benepet/src/pages/sign_up/signup_page.dart';
 import 'package:benepet/src/pages/splash/splash_page.dart';
 //import 'package:benepet/src/pages/welcome_page.dart';
 import 'package:benepet/src/pages/welcome/welcome_page.dart';
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
         '/'             :(BuildContext context) =>ScrollPage(),
         'ingreso'       :(BuildContext context) =>HomePage(),
         'login'         :(BuildContext context) =>LoginScreen(),
+        'signin'         :(BuildContext context) =>SignUpScreen(),
+
        // 'detalle' :(BuildContext context) =>PeliculaDetalle(),
 
       }
