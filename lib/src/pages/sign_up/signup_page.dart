@@ -29,7 +29,6 @@ class _SignupState extends State<SignUpScreen> {
   bool _medium;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  GlobalKey<FormState> _key = GlobalKey();
 
   //COLORES--------------------
   final Color primario=Color(0XFF364f6b);

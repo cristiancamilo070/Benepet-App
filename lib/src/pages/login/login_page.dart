@@ -259,8 +259,8 @@ List<DropdownMenuItem<String>> getOpciones(){
           ),
           GestureDetector(
             onTap: () {
-             // Navigator.pushNamed(context,'/');
-              print("Routing to Sign up screen");
+             Navigator.pushNamed(context,'signin');
+              
             },
             child: Text(
               "Registrarme",
