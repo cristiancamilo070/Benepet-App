@@ -212,7 +212,7 @@ List<DropdownMenuItem<String>> getOpciones(){
       ),
     );
   }
-//------------------------BOTON LOGIN ---------------------------------------------
+//------------------------BOTON LOGIN---------------------------------------------
   Widget _botonLogin() {
     return RaisedButton(
       elevation: 0,
