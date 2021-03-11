@@ -90,6 +90,7 @@ return WelcomeBackground(
         child: Row(
           children: <Widget>[
           SizedBox(width: _width/2.8),
+          // ignore: deprecated_member_use
           RaisedButton(
             elevation: 0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -97,6 +98,7 @@ return WelcomeBackground(
               Navigator.pushNamed(context, 'login');
               Scaffold
                   .of(context)
+                  // ignore: deprecated_member_use
                   .showSnackBar(SnackBar(content: Text('Login Successful')));
             },
             textColor: background,
@@ -204,13 +206,16 @@ Widget _pagina2(BuildContext context) {
             child: Row(
               children: <Widget>[
               SizedBox(width: _width/2.8),
+              // ignore: deprecated_member_use
               RaisedButton(
                 elevation: 0,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                 onPressed: () {
                   Navigator.pushNamed(context, 'signin');
-                  Scaffold
+                  // ignore: unused_local_variable
+                  var showSnackBar = Scaffold
                       .of(context)
+                      // ignore: deprecated_member_use
                       .showSnackBar(SnackBar(content: Text('Login Successful')));
                 },
                 textColor: background,
@@ -315,6 +320,7 @@ Widget _pagina3(BuildContext context) {
 //-----------------------------------BOTON Y FLECHA---------------------------------------------------------------
       Container(
         child:Center(
+          // ignore: deprecated_member_use
           child: RaisedButton(
               elevation: 0,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -322,6 +328,7 @@ Widget _pagina3(BuildContext context) {
                 Navigator.pushNamed(context, 'signup');
                 Scaffold
                     .of(context)
+                    // ignore: deprecated_member_use
                     .showSnackBar(SnackBar(content: Text('Login Successful')));
               },
               textColor: background,

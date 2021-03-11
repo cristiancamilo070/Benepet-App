@@ -1,7 +1,7 @@
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
 // ignore: must_be_immutable
-class Textfild extends StatefulWidget {
+class Pwrdfild extends StatefulWidget {
   
   final String hint;
   final TextEditingController textEditingController;
@@ -9,24 +9,25 @@ class Textfild extends StatefulWidget {
   final bool obscureText;
   final IconData icon;
   final IconData iconSufix;
-  String fild;
+  String clave="",inputxd;
 
 
-  Textfild(
+  Pwrdfild(
     {this.hint,
       this.textEditingController,
       this.keyboardType,
       this.icon,
       this.iconSufix,
       this.obscureText= false,
-      this.fild
+      this.clave,
+      this.inputxd
      });
 
   @override
-  _TextfildState createState() => _TextfildState();
+  _PwrdState createState() => _PwrdState();
 }
 
-class _TextfildState extends State<Textfild> {
+class _PwrdState extends State<Pwrdfild> {
   double _width;
   double _pixelRatio;
   bool large;
@@ -48,7 +49,8 @@ class _TextfildState extends State<Textfild> {
     borderRadius: BorderRadius.circular(30.0),
     elevation: large? 12 : (medium? 10 : 8),
     child: TextFormField(
-      onSaved:(entrada) => widget.fild = entrada,
+      onSaved:(input) => widget.clave = widget.inputxd,
+      textInputAction: TextInputAction.done,
       controller: widget.textEditingController,
       keyboardType: widget.keyboardType,
       cursorColor: primario,

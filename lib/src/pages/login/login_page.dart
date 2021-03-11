@@ -1,10 +1,10 @@
 import 'package:benepet/src/pages/login/login_bg.dart';
-import 'package:benepet/src/widgets/dropdown_widget.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
-import 'package:benepet/src/widgets/textfild_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -22,14 +22,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginState extends State<LoginScreen> {
 
+  //MEDIDAS--------------------
   double _height;
   double _width;
   double _pixelRatio;
   bool _large;
   bool _medium;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  GlobalKey<FormState> _key = GlobalKey();
+  //TextEditingController emailController = TextEditingController();
+  //TextEditingController passwordController = TextEditingController();
 
   //COLORES--------------------
   final Color primario=Color(0XFF364f6b);
@@ -38,9 +38,68 @@ class _LoginState extends State<LoginScreen> {
   final Color background=Color(0XFFf5f5f5);
 
   //DROPDOWN-------------------
-  List<String> _opcionesIngreso = ['Adoptante','Rescatista'];
-  String _opcionSeleccionada = 'Adoptante';
+  // List<String> _opcionesIngreso = ['Adoptante','Rescatista'];
+  // String _opcionSeleccionada = 'Adoptante';
 
+  //FIREBASE-------------------
+  final FirebaseAuth _auth=FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey= GlobalKey<FormState>() ;
+  String _email="", _password="";
+  checkAuthentication() async{
+    _auth.authStateChanges().
+    listen((user) { 
+    if(user!= null){
+      print(user);
+      Navigator.pushNamed(context, 'home');
+      }
+    }
+   );
+  }
+
+  @override
+      void initState(){
+        super.initState();
+        this.checkAuthentication();
+     }
+
+  login()async{
+    if(_formKey.currentState.validate()){  
+      _formKey.currentState.save();
+      try{
+        // ignore: unused_local_variable
+        UserCredential user = await _auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
+      }
+      catch(e){
+        showError(e.message);
+        print(e);
+      }
+    }
+  }
+
+  showError(String errormessage){
+   showDialog(
+    context: context,
+    builder: (BuildContext context)
+    {
+      return AlertDialog(
+        title: Text('ERROR'),
+        content: Text(errormessage),
+        actions: <Widget>[
+          TextButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+            }, 
+          child: Text('OK'))
+        ],
+      );
+    }
+   );
+  }
+
+  navigateToSignUp()async{
+    Navigator.pushNamed(context,'/');
+  }
+//-------------------------BUILD--------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
@@ -59,14 +118,15 @@ class _LoginState extends State<LoginScreen> {
                 _subWelcomeText(),
                 _form(),
                 _forgetPassTextRow(),
-                SizedBox(height: _height*0.05),
-                _botonLogin(),
+                SizedBox(height: _height*0.01),
+                _botonLoginElevatedButton(),
+                _botonGoogle(),
                 _signUpTextRow(),
               ],
             ),
           ),
+        ),
       ),
-       ),
     );
   }
 
@@ -124,66 +184,117 @@ class _LoginState extends State<LoginScreen> {
   Widget _form() {
     return Container(
       margin: EdgeInsets.only(
-          left: _width / 12.0,
-          right: _width / 12.0,
-          top: _height / 15.0),
+          left: _width / 13.0,
+          right: _width / 13.0,
+          top: _height / 20.0),
       child: Form(
-        key: _key,
+        key: _formKey,
         child: Column(
-          children: <Widget>[
-            emailTextFormField(),
-            SizedBox(height: _height / 40.0),
-            passwordTextFormField(),
-            SizedBox(height: _height / 40.0),
-            _crearDropdown()
+        children: <Widget>[
+//FORMFIELD EMAIL----------------------------------------------------
+          Material(
+            borderRadius: BorderRadius.circular(30.0),
+            elevation: _large? 12 : (_medium? 10 : 8),
+            child: TextFormField(
+              cursorColor: primario,
+              keyboardType: TextInputType.emailAddress,
+              obscureText: false,
+              onSaved: (input) => _email = input,
+              // ignore: missing_return
+              validator: (input){
+                if(input.isEmpty)
+                return 'Ingresa tu Email';
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.email, color: primario, size: 20),
+                suffixIcon: Icon(Icons.alternate_email ,color: primario, size: 15),//added
+                hintText: "Email",
+                labelText: "Email",//added
+                labelStyle: TextStyle(color: primario ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none),
+                ),
+            ),
+          ),
+
+          SizedBox(height: _height / 50.0),
+//FORMFIELD PASSWORD----------------------------------------------------
+          Material(
+            borderRadius: BorderRadius.circular(30.0),
+            elevation: _large? 12 : (_medium? 10 : 8),
+            child: TextFormField(
+              cursorColor: primario,
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: true,
+              onSaved: (input) => _password = input,
+              // ignore: missing_return
+              validator: (input){
+                if(input.length < 6)
+                return 'Ingresa un mínimo de 6 caracteres';
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.lock, color: primario, size: 20),
+                suffixIcon: Icon(Icons.screen_lock_portrait ,color: primario, size: 15),//added
+                hintText: "Contraseña",
+                labelText: "Contraseña",//added
+                labelStyle: TextStyle(color: primario ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none),
+                ),
+              
+            ),
+          ),
+
+          SizedBox(height: _height / 50.0),
+           
+           // _crearDropdown()
           ],
         ),
       ),
     );
   }
+  // Widget emailTextFormField() {
+  //   return Correofild(
+  //     keyboardType: TextInputType.emailAddress,
+  //     //textEditingController: emailController,
+  //     icon: Icons.email,
+  //     iconSufix: Icons.alternate_email,
+  //     hint: "Email",
+  //     correo:_email,
+  //     inputxd: _email,);}
 
-  Widget emailTextFormField() {
-    return Textfild(
-      keyboardType: TextInputType.emailAddress,
-      textEditingController: emailController,
-      icon: Icons.email,
-      iconSufix: Icons.alternate_email,
-      hint: "Email",
-    );
+  // Widget passwordTextFormField() {
+  //   return Pwrdfild(
+  //     keyboardType: TextInputType.visiblePassword,
+  //    // textEditingController: passwordController,
+  //     icon: Icons.lock,
+  //     iconSufix: Icons.screen_lock_portrait,
+  //     obscureText: true,
+  //     hint: "Contraseña",
+  //     clave: _password);}
 
-  }
-
-  Widget passwordTextFormField() {
-    return Textfild(
-      keyboardType: TextInputType.visiblePassword,
-      textEditingController: passwordController,
-      icon: Icons.lock,
-      iconSufix: Icons.screen_lock_portrait,
-      obscureText: true,
-      hint: "Contraseña",
-    );
-  }
 //-------------------DROPDOWN-----------------------------------------------------------
-
-List<DropdownMenuItem<String>> getOpciones(){
-    List<DropdownMenuItem<String>> lista=new List();
-    _opcionesIngreso.forEach((item) { 
-      lista.add(DropdownMenuItem(
-        child: Text(item),
-        value: item,
-      ));
-    });
-    return lista;
-  }
-
-  Widget _crearDropdown(){
-  return DropdownFild(
-    icon:Icons.arrow_drop_down_circle ,
-    list: getOpciones(),
-    initialValue: _opcionSeleccionada, 
-    iconSufix: Icons.people_outline,   
-  );
-  }
+// List<DropdownMenuItem<String>> getOpciones(){
+//     // ignore: deprecated_member_use
+//     List<DropdownMenuItem<String>> lista=new List();
+//     _opcionesIngreso.forEach((item) { 
+//       lista.add(DropdownMenuItem(
+//         child: Text(item),
+//         value: item,
+//       ));
+//     });
+//     return lista;
+//   }
+//   Widget _crearDropdown(){
+//   return DropdownFild(
+//     icon:Icons.arrow_drop_down_circle ,
+//     list: getOpciones(),
+//     initialValue: _opcionSeleccionada, 
+//     iconSufix: Icons.people_outline,   
+//   );
+//   }
 //------------------------FORGER PASSWORD------------------------------------------------------------
   Widget _forgetPassTextRow() {
     return Container(
@@ -213,35 +324,82 @@ List<DropdownMenuItem<String>> getOpciones(){
     );
   }
 //------------------------BOTON LOGIN---------------------------------------------
-  Widget _botonLogin() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-          print("Routing to your account");
-          Scaffold
-              .of(context)
-              .showSnackBar(SnackBar(content: Text('Login Successful')));
+  // Widget _botonLogin() {
+  //   return RaisedButton(
+  //     elevation: 0,
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+  //     textColor: background,
+  //     padding: EdgeInsets.all(0.0),
+  //     onPressed: () {
+  //         print("Routing to your account");
+  //         Scaffold
+  //             .of(context)
+  //             // ignore: deprecated_member_use
+  //             .showSnackBar(SnackBar(content: Text('Login Successful')));
 
-      },
-      textColor: background,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
+  //     },
+  //     child: Container(
+  //       height:_height /20,
+  //       alignment: Alignment.center,
+  //       width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.all(Radius.circular(20.0)),
+  //         gradient: LinearGradient(
+  //           colors: <Color>[terciario.withOpacity(0.5), terciario],
+  //         ),
+  //       ),
+        
+  //       padding: const EdgeInsets.all(12.0),
+  //       child: Text('Ingresar',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
+  //     ),
+  //   );
+  // }
+
+
+//------------------------BOTON LOGIN ELEVATED BUTTON---------------------------------------------
+
+Widget _botonLoginElevatedButton() {// se tuvo que cambiar con la actualizacion de flutter al 2.0
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+
+         primary: secundario,
+         onSurface: terciario,
+         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+         elevation: 3,
+         textStyle: TextStyle(color: background),
+         padding: EdgeInsets.all(0.0)
+      ),
+      onPressed: login,
+          // print("Routing to your account");
+          // Scaffold
+          //     .of(context)
+          //     // ignore: deprecated_member_use
+          //     .showSnackBar(SnackBar(content: Text('Login Successful')));
+       child: Container(
         height:_height /20,
         alignment: Alignment.center,
         width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
-
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           gradient: LinearGradient(
-            colors: <Color>[terciario.withOpacity(0.5), terciario],
+            colors: <Color>[terciario.withOpacity(1), terciario],
           ),
         ),
-        
-        padding: const EdgeInsets.all(12.0),
         child: Text('Ingresar',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
-      ),
+       ),
     );
+  }
+
+  Widget _botonGoogle(){
+   return SignInButton(
+    Buttons.Google,
+    text: "Ingresa con Google",
+    elevation: 4,
+    padding: EdgeInsets.all(0),     
+    onPressed: () {},
+      );
+
   }
 
   Widget _signUpTextRow() {

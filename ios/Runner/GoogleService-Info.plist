@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>352348789428-mt01luold1niobrkjrgqer5qmvc0k9jr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.352348789428-mt01luold1niobrkjrgqer5qmvc0k9jr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>352348789428-t3kso673fnslkm4god0fjrokpdvdlbmj.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBInyao_SbTTneRuImVVt0aa8sjDVx68SQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>352348789428</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.benepet</string>
+	<key>PROJECT_ID</key>
+	<string>benepet-2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>benepet-2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:352348789428:ios:bae0e78a992cbc2c5ad5e1</string>
+</dict>
+</plist>

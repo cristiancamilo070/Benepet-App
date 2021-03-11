@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "352348789428",
+    "project_id": "benepet-2",
+    "storage_bucket": "benepet-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352348789428:android:b4f629c26da6e7e95ad5e1",
+        "android_client_info": {
+          "package_name": "com.example.benepet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352348789428-t3kso673fnslkm4god0fjrokpdvdlbmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.benepet",
+            "certificate_hash": "e83ed7133ea3398ad9e7fd504c259b4c2c67e4f0"
+          }
+        },
+        {
+          "client_id": "352348789428-252g4p2s3o00t3ooactj84tcbiskj2ee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVN8U9Ze05ZMip2F0NhZVLCEySH41wBro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352348789428-252g4p2s3o00t3ooactj84tcbiskj2ee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
