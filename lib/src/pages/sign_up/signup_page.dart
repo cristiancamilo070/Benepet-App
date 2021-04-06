@@ -86,13 +86,10 @@ class _SignupState extends State<SignUpScreen> {
    showDialog(
      
     context: context,
-    builder: (BuildContext context)
-    {
+    builder: (BuildContext context){
       return AlertDialog(
-
         title: Text('ERROR'),
         content: Text(errormessage),
-
         actions: <Widget>[
           // ignore: deprecated_member_use
           FlatButton(
@@ -100,16 +97,11 @@ class _SignupState extends State<SignUpScreen> {
             onPressed: (){
               Navigator.of(context).pop();
             }, 
-          
-          
           child: Text('OK'))
         ],
       );
     }
-   
-   
    );
-
   }
 
 

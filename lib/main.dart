@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
       routes:{
         'splash'        :(BuildContext context) =>SplashScreen(),
         '/'             :(BuildContext context) =>ScrollPage(),
-         'login'         :(BuildContext context) =>LoginScreen(),
+        'login'         :(BuildContext context) =>LoginScreen(),
         'signin'        :(BuildContext context) =>SignUpScreen(),
-         'home'         :(BuildContext context) =>HomePage(),                                       
+        'home'         :(BuildContext context) =>HomePage(),                                       
       }
     );
   }

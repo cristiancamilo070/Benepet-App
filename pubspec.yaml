@@ -31,11 +31,14 @@ dependencies:
   flutter_svg: ^0.19.0
   #google
   firebase_core: ^1.0.1
-  cloud_firestore:
+  cloud_firestore: ^1.0.3
   firebase_auth: ^1.0.1
-  firebase_analytics: ^5.0.2
+  google_sign_in: ^5.0.1
   #sign in button
   flutter_signin_button: ^1.1.0
+  #info
+  device_info: ^2.0.0
+  package_info: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,3 @@
-
 import 'package:benepet/src/pages/welcome/welcome_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
@@ -90,35 +89,30 @@ return WelcomeBackground(
         child: Row(
           children: <Widget>[
           SizedBox(width: _width/2.8),
-          // ignore: deprecated_member_use
-          RaisedButton(
-            elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-            onPressed: () {
-              Navigator.pushNamed(context, 'login');
-              Scaffold
-                  .of(context)
-                  // ignore: deprecated_member_use
-                  .showSnackBar(SnackBar(content: Text('Login Successful')));
-            },
-            textColor: background,
-            padding: EdgeInsets.all(0.0),
-            child: Container(
-              height:_height /20,
-              alignment: Alignment.center,
-              width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                gradient: LinearGradient(
-                  colors: <Color>[terciario.withOpacity(0.5), terciario],
-                ),
-              ),
-              
-              padding: const EdgeInsets.all(12.0),
-              child: Text('Ingresar',style: TextStyle(color: background,fontSize: _large? 14: (_medium? 12: 10))),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+            primary: secundario,
+            onSurface: terciario,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+            elevation: 3,
+            textStyle: TextStyle(color: background),
+            padding: EdgeInsets.all(0.0)
             ),
-          ),
-             
+            onPressed: () {Navigator.pushNamed(context, 'login');},
+            child: Container(
+             height:_height /20,
+             alignment: Alignment.center,
+             width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+             decoration: BoxDecoration(
+               borderRadius: BorderRadius.all(Radius.circular(20.0)),
+               gradient: LinearGradient(
+               colors: <Color>[terciario.withOpacity(1), terciario],
+               ),
+              ),
+              child: Text('Ingresar',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
+            ),
+          ), 
+
           SizedBox(width: _width/6,),
 
           SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: _height*0.09)
@@ -126,7 +120,7 @@ return WelcomeBackground(
             ),
           )
           ,
-          
+     
       SizedBox(height: _height*0.001,),
 //------------------------------------------------Subtitulo Botón-------------------------------------------------
        Container(
@@ -203,38 +197,33 @@ Widget _pagina2(BuildContext context) {
       SizedBox(height: _height*0.02,),
 //-----------------------------------BOTON Y FLECHA---------------------------------------------------------------
       Container(
-            child: Row(
-              children: <Widget>[
-              SizedBox(width: _width/2.8),
-              // ignore: deprecated_member_use
-              RaisedButton(
-                elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'signin');
-                  // ignore: unused_local_variable
-                  var showSnackBar = Scaffold
-                      .of(context)
-                      // ignore: deprecated_member_use
-                      .showSnackBar(SnackBar(content: Text('Login Successful')));
-                },
-                textColor: background,
-                padding: EdgeInsets.all(0.0),
-                child: Container(
-                  height:_height /20,
-                  alignment: Alignment.center,
-                  width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    gradient: LinearGradient(
-                      colors: <Color>[terciario.withOpacity(0.5), terciario],
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text('Registrarme',style: TextStyle(color: background,fontSize: _large? 14: (_medium? 12: 10))),
-                ),
-                
-                ),
+        child: Row(
+          children: <Widget>[
+          SizedBox(width: _width/2.8),
+          // ignore: deprecated_member_use
+         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+          primary: secundario,
+          onSurface: terciario,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+          elevation: 3,
+          textStyle: TextStyle(color: background),
+          padding: EdgeInsets.all(0.0)
+          ),
+          onPressed: () {Navigator.pushNamed(context, 'signin');},
+          child: Container(
+          height:_height /20,
+          alignment: Alignment.center,
+          width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            gradient: LinearGradient(
+            colors: <Color>[terciario.withOpacity(1), terciario],
+            ),
+            ),
+            child: Text('Regístrate',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
+          ),
+        ), 
              
           SizedBox(width: _width/6),
 
@@ -317,39 +306,36 @@ Widget _pagina3(BuildContext context) {
       
         
       SizedBox(height: size.height*0.02,),
-//-----------------------------------BOTON Y FLECHA---------------------------------------------------------------
+//-----------------------------------BOTON ---------------------------------------------------------------
       Container(
         child:Center(
           // ignore: deprecated_member_use
-          child: RaisedButton(
-              elevation: 0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-              onPressed: () {
-                Navigator.pushNamed(context, 'signup');
-                Scaffold
-                    .of(context)
-                    // ignore: deprecated_member_use
-                    .showSnackBar(SnackBar(content: Text('Login Successful')));
-              },
-              textColor: background,
-              padding: EdgeInsets.all(0.0),
-              child: Container(
-                height:_height /20,
-                alignment: Alignment.center,
-                width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  gradient: LinearGradient(
-                    colors: <Color>[terciario.withOpacity(0.5), terciario],
-                  ),
-                ),
-                
-                padding: const EdgeInsets.all(12.0),
-                child: Text('Ingresar',style: TextStyle(color: background,fontSize: _large? 14: (_medium? 12: 10))),
-              ),
-            ),
-        ) 
+          child: 
+         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+          primary: secundario,
+          onSurface: terciario,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+          elevation: 3,
+          textStyle: TextStyle(color: background),
+          padding: EdgeInsets.all(0.0)
           ),
+          onPressed: () {Navigator.pushNamed(context, 'signin');},
+          child: Container(
+          height:_height /20,
+          alignment: Alignment.center,
+          width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            gradient: LinearGradient(
+            colors: <Color>[terciario.withOpacity(1), terciario],
+            ),
+            ),
+            child: Text('Regístrate',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
+          ),
+        ), 
+        ) 
+       ),
           
       SizedBox(height: _height*0.001,),
      //Subtitulo Botón
