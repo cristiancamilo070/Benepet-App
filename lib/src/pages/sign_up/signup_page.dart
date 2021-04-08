@@ -1,9 +1,6 @@
 import 'package:benepet/src/pages/login/login_bg.dart';
-import 'package:benepet/src/widgets/correo_widget.dart';
-import 'package:benepet/src/widgets/dropdown_widget.dart';
-import 'package:benepet/src/widgets/pwrd_widget.dart';
+import 'package:benepet/src/utils/userHelper.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
-import 'package:benepet/src/widgets/textfild_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,24 +27,23 @@ class _SignupState extends State<SignUpScreen> {
   double _pixelRatio;
   bool _large;
   bool _medium;
+
+  TextEditingController nombreController = TextEditingController();
+  TextEditingController apellidoController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordVerifyController = TextEditingController();
 
   //COLORES--------------------
   final Color primario=Color(0XFF364f6b);
   final Color secundario=Color(0XFF3fc1c9);
   final Color terciario=Color(0XFFfc5185);
   final Color background=Color(0XFFf5f5f5);
-
-  //DROPDOWN-------------------
-  List<String> _opcionesIngreso = ['Adoptante','Rescatista'];
-  String _opcionSeleccionada = 'Adoptante';
-
+  
   //FIREBASE
    FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String _nombre="", _apellido="", _email="", _password="";
 
   checkAuthentication() async {
 
@@ -67,24 +63,31 @@ class _SignupState extends State<SignUpScreen> {
   }
 
   signUp()async{
-   if(_formKey.currentState.validate()){
-     _formKey.currentState.save();
-     try{
-       UserCredential user =await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
-       if(user!= null){
-         await _auth.currentUser.updateProfile(displayName: _nombre);
-       }
+    String nombreCompleto=nombreController.text+" "+apellidoController.text;
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
+    try{
+      UserCredential user =await _auth.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text);
+      
+      User updateUser=FirebaseAuth.instance.currentUser;
+      //poner user como documento en USERHELPER
+      if(user!= null){
+      updateUser.updateProfile(displayName:nombreCompleto);
+      UserHelper.saveUser(user.user, nombreCompleto);
+      }
      }
-     catch(e){
-       showError(e.message);
-       print(e);
-     }
-   }  
+      catch(e){
+        showError(e.message);
+        print(e);
+      }
+    } 
+  
   }
   showError(String errormessage){
 
    showDialog(
-     
     context: context,
     builder: (BuildContext context){
       return AlertDialog(
@@ -197,68 +200,71 @@ class _SignupState extends State<SignUpScreen> {
         child: Column(
           children: <Widget>[
 //FORMEDFIELD NOMBRE-------------------------------------------------
-          Material(
-            borderRadius: BorderRadius.circular(30.0),
-            elevation: _large? 12 : (_medium? 10 : 8),
-            child: TextFormField(
-              cursorColor: primario,
-              keyboardType: TextInputType.text,
-              obscureText: false,
-              onSaved: (input) => _email = input,
-              // ignore: missing_return
-              validator: (input){
-                if(input.isEmpty)
-                return 'Ingresa tu nombre';
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person, color: primario, size: 20),
-                suffixIcon: Icon(Icons.person_pin ,color: primario, size: 15),//added
-                hintText: "Nombre",
-                labelText: "Nombre",//added
-                labelStyle: TextStyle(color: primario ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none),
-                ),
-             ),
-            ),           
-            SizedBox(height: _height / 60.0),
-//FORMEDFIELD APELLIDO-------------------------------------------------
-          Material(
-            borderRadius: BorderRadius.circular(30.0),
-            elevation: _large? 12 : (_medium? 10 : 8),
-            child: TextFormField(
-              cursorColor: primario,
-              keyboardType: TextInputType.text,
-              obscureText: false,
-              onSaved: (input) => _apellido = input,
-              // ignore: missing_return
-              validator: (input){
-                if(input.isEmpty)
-                return 'Ingresa tu apellido';
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person, color: primario, size: 20),
-                suffixIcon: Icon(Icons.person_pin ,color: primario, size: 15),//added
-                hintText: "Apellido",
-                labelText: "Apellido",//added
-                labelStyle: TextStyle(color: primario ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none),
-                ),
-             ),
+      Material(
+        borderRadius: BorderRadius.circular(30.0),
+        elevation: _large? 12 : (_medium? 10 : 8),
+        child: TextFormField(
+          controller: nombreController,
+          cursorColor: primario,
+          keyboardType: TextInputType.text,
+          obscureText: false,
+          onSaved: (input) => nombreController.text = input,
+          // ignore: missing_return
+          validator: (input){
+            if(input.isEmpty)
+            return 'Ingresa tu nombre';
+          },
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.person, color: primario, size: 20),
+            suffixIcon: Icon(Icons.person_pin ,color: primario, size: 15),//added
+            hintText: "Nombre",
+            labelText: "Nombre",//added
+            labelStyle: TextStyle(color: primario ),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                borderSide: BorderSide.none),
             ),
+          ),
+        ),           
+        SizedBox(height: _height / 60.0),
+//FORMEDFIELD APELLIDO-------------------------------------------------
+        Material(
+          borderRadius: BorderRadius.circular(30.0),
+          elevation: _large? 12 : (_medium? 10 : 8),
+          child: TextFormField(
+            controller: apellidoController,
+            cursorColor: primario,
+            keyboardType: TextInputType.text,
+            obscureText: false,
+            onSaved: (input) => apellidoController.text = input,
+            // ignore: missing_return
+            validator: (input){
+              if(input.isEmpty)
+              return 'Ingresa tu apellido';
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.person, color: primario, size: 20),
+              suffixIcon: Icon(Icons.person_pin ,color: primario, size: 15),//added
+              hintText: "Apellido",
+              labelText: "Apellido",//added
+              labelStyle: TextStyle(color: primario ),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none),
+              ),
+            ),
+          ),
             SizedBox(height: _height/ 60.0),
 //FORMFIELD EMAIL----------------------------------------------------
           Material(
             borderRadius: BorderRadius.circular(30.0),
             elevation: _large? 12 : (_medium? 10 : 8),
             child: TextFormField(
+              controller: emailController,
               cursorColor: primario,
               keyboardType: TextInputType.emailAddress,
               obscureText: false,
-              onSaved: (input) => _email = input,
+              onSaved: (input) => emailController.text = input,
               // ignore: missing_return
               validator: (input){
                 if(input.isEmpty)
@@ -276,24 +282,23 @@ class _SignupState extends State<SignUpScreen> {
                 ),
             ),
             ),
-            //SizedBox(height: _height / 60.0),
-            //_crearDropdownR(),
-            //SizedBox(height: _height / 60.0),
-            //_telefono(),
             SizedBox(height: _height / 60.0),
 //FORMFIELD PASSWORD----------------------------------------------------
           Material(
             borderRadius: BorderRadius.circular(30.0),
             elevation: _large? 12 : (_medium? 10 : 8),
             child: TextFormField(
+              controller: passwordController,
               cursorColor: primario,
               keyboardType: TextInputType.visiblePassword,
               obscureText: true,
-              onSaved: (input) => _password = input,
+              onSaved: (input) => passwordController.text = input,
               // ignore: missing_return
               validator: (input){
-                if(input.length < 6)
-                return 'Ingresa un mínimo de 6 caracteres';
+                if (input.isEmpty) {
+                  return 'Ingresa una contraseña';
+                }else if(input.length < 6)
+                {return 'Ingresa un mínimo de 6 caracteres';}
               },
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock, color: primario, size: 20),
@@ -317,11 +322,16 @@ class _SignupState extends State<SignUpScreen> {
               cursorColor: primario,
               keyboardType: TextInputType.visiblePassword,
               obscureText: true,
-              onSaved: (input) => _password = input,
+              onSaved: (input) => passwordVerifyController.text = input,
               // ignore: missing_return
               validator: (input){
-                if(input.length < 6)
-                return 'Ingresa un mínimo de 6 caracteres';
+                if (input.isEmpty) {
+                  return 'Ingresa una contraseña';
+                }else if(input.length < 6)
+                {return 'Ingresa un mínimo de 6 caracteres';
+                }else if(input!=passwordController.text){
+                  return 'Las contraseñas no coinciden, intentalo de nuevo';
+                }
               },
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock, color: primario, size: 20),
@@ -341,132 +351,28 @@ class _SignupState extends State<SignUpScreen> {
       ),
     );
   }
-//-------------------NOMBRES OLD WAY-------------------------------------------------
-  // Widget _nombre() {
-  //   return Textfild(
-  //     keyboardType: TextInputType.text,
-  //     icon: Icons.person,
-  //     hint: "Nombre",
-  //     iconSufix: Icons.person_pin,
-  //     fild: _name,
-  //   );
-  // }
-  // Widget _apellido() {
-  //   return Textfild(
-  //     keyboardType: TextInputType.text,
-  //     icon: Icons.person,
-  //     hint: "Apellido",
-  //     iconSufix: Icons.person_pin,
-  //   );
-  // }
-//-------------------EMAIL-----------------------------------------------------------
-
-  Widget _entermail() {
-    return Correofild(
-      keyboardType: TextInputType.emailAddress,
-      icon: Icons.email,
-      iconSufix: Icons.alternate_email,
-      hint: "Email",
-      correo: _email,
-    );
-  }
-
-//-------------------DROPDOWN-----------------------------------------------------------
-
-List<DropdownMenuItem<String>> getOpcionesR(){
-    List<DropdownMenuItem<String>> lista=[];
-    _opcionesIngreso.forEach((item) { 
-      lista.add(DropdownMenuItem(
-        child: Text(item),
-        value: item,
-      ));
-    });
-    return lista;
-  }
-
-  Widget _crearDropdownR(){
-  return DropdownFild(
-    icon:Icons.arrow_drop_down_circle ,
-    list: getOpcionesR(),
-    initialValue: _opcionSeleccionada, 
-    iconSufix: Icons.people_outline,   
-  );
-//-------------------CELULAR -----------------------------------------------------------
-  }
-  Widget _telefono() {
-    return Textfild(
-      keyboardType: TextInputType.number,
-      icon: Icons.phone,
-      hint: "Mobile Number",
-      iconSufix: Icons.textsms,
-    );
-  }
-//-------------------CONTRASEÑAS-----------------------------------------------------------
-  Widget _clave() {
-    return Textfild(
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      icon: Icons.lock,
-      iconSufix: Icons.screen_lock_portrait,
-      hint: "Contraseña",
-    );
-  }
-  Widget _claveConfirmacion() {
-    return Pwrdfild(
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      icon: Icons.lock,
-      iconSufix: Icons.screen_lock_portrait,
-      hint: "Confirma contraseña",
-      clave: _password,
-    );
-  }
-
-  // Widget acceptTermsTextRow() {
-  //   return Container(
-  //     margin: EdgeInsets.only(top: _height / 100.0),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: <Widget>[
-  //         Checkbox(
-  //             activeColor: Colors.orange[200],
-  //             value: checkBoxValue,
-  //             onChanged: (bool newValue) {
-  //               setState(() {
-  //                 checkBoxValue = newValue;
-  //               });
-  //             }),
-  //         Text(
-  //           "I accept all terms and conditions",
-  //           style: TextStyle(fontWeight: FontWeight.w400, fontSize: _large? 12: (_medium? 11: 10)),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
+  
   Widget _boton() {
-    // ignore: deprecated_member_use
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: signUp,
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: primario,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+        elevation: 3,
+        textStyle: TextStyle(color: background),
+        padding: EdgeInsets.all(0.0)
+    ),
+    onPressed: signUp,
+    child: Ink(
+      decoration:BoxDecoration(
+      gradient: LinearGradient(colors: [secundario.withOpacity(0.5), primario]),
+      borderRadius: BorderRadius.circular(20)) ,
+      child:Container(
+        constraints: BoxConstraints.tightFor(width: _width/2.5, height: _height/18),//tamaño botón
         alignment: Alignment.center,
-        height: _height / 20,
-        width:_large? _width/4 : (_medium? _width/3.75: _width/3.5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          gradient: LinearGradient(
-            colors: <Color>[terciario.withOpacity(0.5), terciario],
-          ),
-        ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text('Registrar', style: TextStyle(fontSize: _large? 14: (_medium? 12: 10)),),
-      ),
-    );
+        child: Text('Registrarse',style: TextStyle(fontSize: _large? 19: (_medium? 15: 13), fontWeight: FontWeight.bold))
+      )
+    ),
+  );
   }
 
   Widget infoTextRow() {

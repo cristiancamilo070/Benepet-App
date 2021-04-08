@@ -1,4 +1,5 @@
 import 'package:benepet/src/pages/login/login_page.dart';
+import 'package:benepet/src/pages/reset_password/reset_pass_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:benepet/src/pages/Home/home_page.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         '/'             :(BuildContext context) =>ScrollPage(),
         'login'         :(BuildContext context) =>LoginScreen(),
         'signin'        :(BuildContext context) =>SignUpScreen(),
-        'home'         :(BuildContext context) =>HomePage(),                                       
+        'home'          :(BuildContext context) =>HomePage(), 
+        'reset'         :(BuildContext context) =>ResetPasswordScreen(),                            
       }
     );
   }

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:package_info/package_info.dart';
 class HomePage extends StatefulWidget {
 
   @override
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
            Container(
 
             height: 300,
-        ),     
+            ),     
             Container(
               child: Text("Hello ${user.displayName} you are Logged in as ${user.email}",
               style: TextStyle(

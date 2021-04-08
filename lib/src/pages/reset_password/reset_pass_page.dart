@@ -1,26 +1,24 @@
 import 'package:benepet/src/pages/login/login_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Login extends StatelessWidget {
+class ResetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoginScreen(),
+      body: ResetPasswordScreen(),
     );
   }
 }
 
-class LoginScreen extends StatefulWidget {
+class ResetPasswordScreen extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _ResetPasswordState createState() => _ResetPasswordState();
 }
 
-class _LoginState extends State<LoginScreen> {
+class _ResetPasswordState extends State<ResetPasswordScreen> {
 
   //MEDIDAS--------------------
   double _height;
@@ -38,70 +36,16 @@ class _LoginState extends State<LoginScreen> {
   //FIREBASE-------------------
   final FirebaseAuth _auth=FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey= GlobalKey<FormState>() ;
-  String _email="", _password="";
+  TextEditingController _emailController = TextEditingController();
 
-  checkAuthentication() async{
-    _auth.authStateChanges().listen((user) { 
-    if(user!= null){
-      print(user);
-      Navigator.pushNamed(context, 'home');
-      }
-    }
-   );
-  }
-
-  @override
-      void initState(){
-        super.initState();
-        this.checkAuthentication();
-     }
-
-  login()async{
-    if(_formKey.currentState.validate()){  
-      _formKey.currentState.save();
-      try{
-        // ignore: unused_local_variable
-        UserCredential user = await _auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
-      }
-      catch(e){
-        showError(e.message);
-        print(e);
-      }
-    }
-  }
-
-  showError(String errormessage){
-   showDialog(
-    context: context,
-    builder: (BuildContext context)
-    {
-      return AlertDialog(
-        title: Text('ERROR'),
-        content: Text(errormessage),
-        actions: <Widget>[
-          TextButton(
-            onPressed: (){
-              Navigator.of(context).pop();
-            }, 
-          child: Text('OK'))
-        ],
-      );
-    }
-   );
-  }
-
-  navigateToSignUp()async{
-    Navigator.pushNamed(context,'/');
-  }
-  
 //-------------------------BUILD--------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
-     _width = MediaQuery.of(context).size.width;
-     _pixelRatio = MediaQuery.of(context).devicePixelRatio;
-     _large =  ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
-     _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
+    _width = MediaQuery.of(context).size.width;
+    _pixelRatio = MediaQuery.of(context).devicePixelRatio;
+    _large =  ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
+    _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
     return Scaffold(
        body:Container(
          child: LoginBackground(
@@ -110,13 +54,13 @@ class _LoginState extends State<LoginScreen> {
               children: <Widget>[
                 _logo(),
                 _welcomeText(),
+                SizedBox(height: _height*0.01),
                 _subWelcomeText(),
                 _form(),
-                _botonLoginElevatedButton(),
                 SizedBox(height: _height*0.01),
-                _botonGoogle(),
-                _forgetPassTextRow(),
-                _signUpTextRow(),
+                _botonLoginElevatedButton(),
+                _regresarLogin(),
+                _regresarSignUp(),
               ],
             ),
           ),
@@ -145,11 +89,11 @@ class _LoginState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Bienvenido",
+            "Cambio de contraseña",
             style: TextStyle(
               color: primario,
               fontWeight: FontWeight.bold,
-              fontSize: _large? 60 : (_medium? 50 : 40),
+              fontSize: _large? 30 : (_medium? 30 : 40),
             ),
           ),
         ],
@@ -164,7 +108,7 @@ class _LoginState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Ingresa a Benepet!",
+            "Ingresa el correo con el cual ingresaste",
             style: TextStyle(
               color: primario,
               fontWeight: FontWeight.w300,
@@ -187,14 +131,15 @@ class _LoginState extends State<LoginScreen> {
         child: Column(
         children: <Widget>[
 //FORMFIELD EMAIL----------------------------------------------------
-          Material(
+          Material( 
             borderRadius: BorderRadius.circular(30.0),
             elevation: _large? 12 : (_medium? 10 : 8),
             child: TextFormField(
+              controller: _emailController,
               cursorColor: primario,
               keyboardType: TextInputType.emailAddress,
               obscureText: false,
-              onSaved: (input) => _email = input,
+              onSaved: (input) => _emailController.text = input,
               // ignore: missing_return
               validator: (input){
                 if(input.isEmpty)
@@ -212,56 +157,28 @@ class _LoginState extends State<LoginScreen> {
                 ),
             ),
           ),
-
           SizedBox(height: _height / 50.0),
-//FORMFIELD PASSWORD----------------------------------------------------
-          Material(
-            borderRadius: BorderRadius.circular(30.0),
-            elevation: _large? 12 : (_medium? 10 : 8),
-            child: TextFormField(
-              cursorColor: primario,
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: true,
-              onSaved: (input) => _password = input,
-              // ignore: missing_return
-              validator: (input){
-                if(input.length < 6)
-                return 'Ingresa un mínimo de 6 caracteres';
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock, color: primario, size: 20),
-                suffixIcon: Icon(Icons.screen_lock_portrait ,color: primario, size: 15),//added
-                hintText: "Contraseña",
-                labelText: "Contraseña",//added
-                labelStyle: TextStyle(color: primario ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none),
-                ),
-              
-            ),
-          ),
-
-          SizedBox(height: _height / 50.0),
-           
-           // _crearDropdown()
           ],
         ),
       ),
     );
   }
-//------------------------BOTON LOGIN ELEVATED BUTTON---------------------------------------------
-  Widget _botonLoginElevatedButton() {// se tuvo que cambiar con la actualizacion de flutter al 2.0
+//------------------------BOTON SEND REQUEST ELEVATED BUTTON---------------------------------------------
+
+Widget _botonLoginElevatedButton() {// se tuvo que cambiar con la actualizacion de flutter al 2.0
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-
-         primary: primario,
-         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
-         elevation: 3,
-         textStyle: TextStyle(color: background),
-         padding: EdgeInsets.all(0.0)
+        primary: primario,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        elevation: 4,
+        textStyle: TextStyle(color: background),
+        padding: EdgeInsets.all(0.0),
       ),
-      onPressed: login,
+      onPressed: (){
+        _auth.sendPasswordResetEmail(email: _emailController.text);
+        print(_emailController.text);
+        Navigator.of(context).pop();
+      },
       child: Ink(
        decoration:BoxDecoration(
         gradient: LinearGradient(colors: [secundario.withOpacity(0.5), primario]),
@@ -269,31 +186,21 @@ class _LoginState extends State<LoginScreen> {
         child:Container(
           constraints: BoxConstraints.tightFor(width: _width/2.5, height: _height/18),//tamaño botón
           alignment: Alignment.center,
-          child: Text('Ingresar',style: TextStyle(fontSize: _large? 19: (_medium? 15: 13), fontWeight: FontWeight.bold))
+          child: Text('Enviar correo',style: TextStyle(fontSize: _large? 19: (_medium? 15: 13), fontWeight: FontWeight.bold))
         )
       ),
     );
   }
 
-  Widget _botonGoogle(){
-   return SignInButton(
-    Buttons.Google,
-    text: "Ingresa con Google",
-    elevation: 4,
-    padding: EdgeInsets.all(0),     
-    onPressed: () {},
-      );
-
-  }
-
-  Widget _forgetPassTextRow() {
+//------------------------FORGER PASSWORD------------------------------------------------------------
+  Widget _regresarLogin() {
     return Container(
       margin: EdgeInsets.only(top: _height / 40.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Olvide mi contraseña",
+            "¿Ya tienes una cuenta?",
             style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 13: 10),color: primario),
           ),
           SizedBox(
@@ -301,12 +208,12 @@ class _LoginState extends State<LoginScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('reset');
+              Navigator.of(context).pushNamed('login');
             },
             child: Text(
-              "Recuperar",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800, color: primario, fontSize: _large? 19: (_medium? 17: 15)),
+              "Ingresar",
+              style:  TextStyle(
+                  fontWeight: FontWeight.w800, color: primario, fontSize: _large? 19: (_medium? 17: 15))
             ),
           )
         ],
@@ -314,7 +221,7 @@ class _LoginState extends State<LoginScreen> {
     );
   }
 
-  Widget _signUpTextRow() {
+  Widget _regresarSignUp() {
     return Container(
       margin: EdgeInsets.only(top: _height / 120.0),
       child: Row(
