@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class Signup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -75,9 +74,10 @@ class _SignupState extends State<SignUpScreen> {
       //poner user como documento en USERHELPER
       if(user!= null){
       updateUser.updateProfile(displayName:nombreCompleto);
-      UserHelper.saveUser(user.user, nombreCompleto);
+      //UserHelper.saveUser(user.user, nombreCompleto);
       }
      }
+
       catch(e){
         showError(e.message);
         print(e);
@@ -86,7 +86,6 @@ class _SignupState extends State<SignUpScreen> {
   
   }
   showError(String errormessage){
-
    showDialog(
     context: context,
     builder: (BuildContext context){
@@ -111,7 +110,6 @@ class _SignupState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     _pixelRatio = MediaQuery.of(context).devicePixelRatio;

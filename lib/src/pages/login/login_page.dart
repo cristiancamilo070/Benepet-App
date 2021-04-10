@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:benepet/src/bloc/auth_bloc.dart';
+import 'package:benepet/src/pages/home/home_page.dart';
 import 'package:benepet/src/pages/login/login_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +9,7 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -40,6 +45,8 @@ class _LoginState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey= GlobalKey<FormState>() ;
   String _email="", _password="";
 
+  StreamSubscription<User> loginStateSubscription;//cancelar el listener
+
   checkAuthentication() async{
     _auth.authStateChanges().listen((user) { 
     if(user!= null){
@@ -50,12 +57,27 @@ class _LoginState extends State<LoginScreen> {
    );
   }
 
+ @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    loginStateSubscription = authBloc.currentUser.listen((fbUser) {
+      if (fbUser != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      }
+    });
+    super.initState();
+  }
+  
   @override
-      void initState(){
-        super.initState();
-        this.checkAuthentication();
-     }
-
+  void dispose() {
+    loginStateSubscription.cancel();
+    super.dispose();
+  }
+  
   login()async{
     if(_formKey.currentState.validate()){  
       _formKey.currentState.save();
@@ -97,6 +119,8 @@ class _LoginState extends State<LoginScreen> {
 //-------------------------BUILD--------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+    final authBloc=Provider.of<AuthBloc>(context);
+
     _height = MediaQuery.of(context).size.height;
      _width = MediaQuery.of(context).size.width;
      _pixelRatio = MediaQuery.of(context).devicePixelRatio;
@@ -114,7 +138,10 @@ class _LoginState extends State<LoginScreen> {
                 _form(),
                 _botonLoginElevatedButton(),
                 SizedBox(height: _height*0.01),
-                _botonGoogle(),
+                SignInButton(
+                  Buttons.Google,text: "Ingresa con Google", elevation: 4, padding: EdgeInsets.all(0), onPressed: () {
+                    authBloc.loginGoogle();
+                },),
                 _forgetPassTextRow(),
                 _signUpTextRow(),
               ],
@@ -273,17 +300,6 @@ class _LoginState extends State<LoginScreen> {
         )
       ),
     );
-  }
-
-  Widget _botonGoogle(){
-   return SignInButton(
-    Buttons.Google,
-    text: "Ingresa con Google",
-    elevation: 4,
-    padding: EdgeInsets.all(0),     
-    onPressed: () {},
-      );
-
   }
 
   Widget _forgetPassTextRow() {

@@ -4,14 +4,14 @@ import 'package:benepet/src/pages/login/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-class HomePage extends StatefulWidget {
+class HomeAdminPage extends StatefulWidget {
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeAdminPageState createState() => _HomeAdminPageState();
 
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeAdminPageState extends State<HomeAdminPage> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User user;
@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   StreamSubscription<User> loginStateSubscription;//cancelar el listener 
 
   checkAuthentification() async{
-
     _auth.authStateChanges().listen((user) { 
       if(user !=null){
         Navigator.pushNamed(context, 'home');
@@ -40,11 +39,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-   signOut()async{
+  signOut()async{
     _auth.signOut();
   }
 
-   @override
+  @override
   void initState() {
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
@@ -58,7 +57,6 @@ class _HomePageState extends State<HomePage> {
     });
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -85,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             height: 300,
             ),     
             Container(
-              child: Text("Hello ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
+              child: Text("Hello ADMIN ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
               //child: Text("Hello } you are Logged in as",
               style: TextStyle(
                 fontSize: 20.0,
