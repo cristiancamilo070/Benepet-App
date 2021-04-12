@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:benepet/main.dart';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 import 'package:benepet/src/pages/home/home_page.dart';
-import 'package:benepet/src/pages/login/login_bg.dart';
+import 'package:benepet/src/widgets/login_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -66,7 +65,7 @@ class _LoginState extends State<LoginScreen> {
        
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => MainScreen(),
+            builder: (context) => HomePage(),
           ),
         );
       }
@@ -129,7 +128,7 @@ class _LoginState extends State<LoginScreen> {
      _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
     return Scaffold(
        body:Container(
-         child: LoginBackground(
+         child: LoginBackground(//BACKGROUND
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -138,9 +137,9 @@ class _LoginState extends State<LoginScreen> {
                 _subWelcomeText(),
                 _form(),
                 _botonLoginElevatedButton(),
-                SizedBox(height: _height*0.01),
+                SizedBox(height: _height*0.005),
                 SignInButton(
-                  Buttons.Google,text: "Ingresa con Google", elevation: 4, padding: EdgeInsets.all(0), onPressed: () {
+                  Buttons.Google,text: "Ingresa con Google", elevation: 4, padding: EdgeInsets.all(0.5), onPressed: () {
                     authBloc.loginGoogle();
                 },),
                 _forgetPassTextRow(),
@@ -285,7 +284,7 @@ class _LoginState extends State<LoginScreen> {
 
          primary: primario,
          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
-         elevation: 3,
+         elevation: 4,
          textStyle: TextStyle(color: background),
          padding: EdgeInsets.all(0.0)
       ),
@@ -294,8 +293,8 @@ class _LoginState extends State<LoginScreen> {
        decoration:BoxDecoration(
         gradient: LinearGradient(colors: [secundario.withOpacity(0.5), primario]),
         borderRadius: BorderRadius.circular(20)) ,
-        child:Container(
-          constraints: BoxConstraints.tightFor(width: _width/2.5, height: _height/18),//tamaño botón
+      child:Container(
+          constraints: BoxConstraints.tightFor(width: _width/1.8, height: _height/18),//tamaño botón
           alignment: Alignment.center,
           child: Text('Ingresar',style: TextStyle(fontSize: _large? 19: (_medium? 15: 13), fontWeight: FontWeight.bold))
         )

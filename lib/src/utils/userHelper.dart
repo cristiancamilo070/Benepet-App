@@ -22,7 +22,7 @@ class UserHelper{
       "build_number":buildNumber
     };
 
-  final userRef =_db.collection("Users").doc(user.uid);
+  final userRef =_db.collection("Users").doc(user.email);//uid o email
 
   if ((await userRef.get()).exists) {
     await userRef.update({
@@ -65,7 +65,7 @@ class UserHelper{
     }
     final nowMs=DateTime.now().millisecondsSinceEpoch;
 
-    final deviceRef=_db.collection("Users").doc(user.uid).collection("Devices").doc(modelo);
+    final deviceRef=_db.collection("Users").doc(user.email).collection("Devices").doc(modelo);//uid o email
     if ((await deviceRef.get()).exists) {
       await deviceRef.update({
        "updated_at":nowMs,

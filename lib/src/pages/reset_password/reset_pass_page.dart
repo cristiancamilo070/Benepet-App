@@ -1,4 +1,4 @@
-import 'package:benepet/src/pages/login/login_bg.dart';
+import 'package:benepet/src/widgets/login_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,7 +48,7 @@ class _ResetPasswordState extends State<ResetPasswordScreen> {
     _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
     return Scaffold(
        body:Container(
-         child: LoginBackground(
+         child: LoginBackground(//BACKGROUND
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -75,7 +75,7 @@ class _ResetPasswordState extends State<ResetPasswordScreen> {
           alignment: Alignment.bottomCenter,
           margin: EdgeInsets.only(top: _large? _height/30 : (_medium? _height/25 : _height/20)),
           child: SvgPicture.asset(
-            'assets/svg/sandbox.svg',
+            'assets/svg/6.svg',
             height: _height/3.5,
             width: _width/3.5,
           ),
@@ -174,9 +174,20 @@ Widget _botonLoginElevatedButton() {// se tuvo que cambiar con la actualizacion 
         textStyle: TextStyle(color: background),
         padding: EdgeInsets.all(0.0),
       ),
+      
       onPressed: (){
         _auth.sendPasswordResetEmail(email: _emailController.text);
-        print(_emailController.text);
+        //print(_emailController.text);
+        final snackBar = SnackBar(
+          content: Text('Te enviamos un correo para realizar este proceso!'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              // Some code to undo the change.
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         Navigator.of(context).pop();
       },
       child: Ink(

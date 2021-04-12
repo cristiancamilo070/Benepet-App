@@ -86,8 +86,8 @@ class _HomePageState extends State<HomePage> {
             Container(
             height: 300,
             ),     
-            Container(
-              child: Text("Hello ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
+            Container (
+              child:  Text("Hello ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
               //child: Text("Hello } you are Logged in as",
               style: TextStyle(
                 fontSize: 20.0,

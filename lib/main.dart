@@ -58,7 +58,7 @@ class MainScreen extends StatelessWidget
       builder:(BuildContext context,AsyncSnapshot snapshot){
         if (snapshot.hasData&&snapshot.data!=null) {
           return StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("Users").doc(snapshot.data.uid).snapshots() ,
+            stream: FirebaseFirestore.instance.collection("Users").doc(snapshot.data.email).snapshots() ,
             builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
               if (snapshot.hasData&&snapshot.data!=null) {
                 final user=snapshot.data.data();

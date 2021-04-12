@@ -1,9 +1,15 @@
-import 'package:benepet/src/pages/login/login_bg.dart';
+import 'dart:async';
+
+import 'package:benepet/main.dart';
+import 'package:benepet/src/bloc/auth_bloc.dart';
+import 'package:benepet/src/pages/home/home_page.dart';
 import 'package:benepet/src/utils/userHelper.dart';
+import 'package:benepet/src/widgets/login_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class Signup extends StatelessWidget {
   @override
@@ -43,7 +49,6 @@ class _SignupState extends State<SignUpScreen> {
    FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
   checkAuthentication() async {
 
     _auth.authStateChanges().
@@ -55,10 +60,13 @@ class _SignupState extends State<SignUpScreen> {
     );
   }
   
+
+
   @override
   void initState(){
+   // checkAuthentication();
     super.initState();
-    this.checkAuthentication();
+    //this.checkAuthentication();
   }
 
   signUp()async{
@@ -66,15 +74,17 @@ class _SignupState extends State<SignUpScreen> {
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
     try{
-      UserCredential user =await _auth.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text);
-      
+      UserCredential user =await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
       User updateUser=FirebaseAuth.instance.currentUser;
+      UserHelper.saveUser(user.user, nombreCompleto);
       //poner user como documento en USERHELPER
-      if(user!= null){
-      updateUser.updateProfile(displayName:nombreCompleto);
-      //UserHelper.saveUser(user.user, nombreCompleto);
+      if(user!= null){ 
+         updateUser.updateProfile(displayName:nombreCompleto);
+        Navigator.of(context).pushReplacement(// puse este await posible quitar 
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
       }
      }
 
@@ -110,6 +120,8 @@ class _SignupState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc=Provider.of<AuthBloc>(context);
+
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     _pixelRatio = MediaQuery.of(context).devicePixelRatio;
@@ -118,7 +130,7 @@ class _SignupState extends State<SignUpScreen> {
 
       return Scaffold(
        body:Container(
-         child: LoginBackground(
+         child: LoginBackground(//BACKGROUND
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -129,7 +141,16 @@ class _SignupState extends State<SignUpScreen> {
                 SizedBox(height: _height/35),
                 _boton(),
                 infoTextRow(),
-                socialIconsRow(),
+                Container(
+                  margin: EdgeInsets.only(top: _height / 120.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 20,
+                        child:  GestureDetector(
+                          onTap: (){authBloc.loginGoogle(); },
+                          child:SvgPicture.asset("assets/svg/google-plus.svg"),) ) ] ) ),
                 signInTextRow(),
                ],
             ),
@@ -168,6 +189,7 @@ class _SignupState extends State<SignUpScreen> {
       ],
     );
   }
+
   Widget _welcomeText() {
       return Container(
         margin: EdgeInsets.only(left: _width / 20, top: _height / 100),
@@ -359,7 +381,7 @@ class _SignupState extends State<SignUpScreen> {
         textStyle: TextStyle(color: background),
         padding: EdgeInsets.all(0.0)
     ),
-    onPressed: signUp,
+    onPressed: ()=>signUp(),
     child: Ink(
       decoration:BoxDecoration(
       gradient: LinearGradient(colors: [secundario.withOpacity(0.5), primario]),
@@ -375,7 +397,7 @@ class _SignupState extends State<SignUpScreen> {
 
   Widget infoTextRow() {
     return Container(
-      margin: EdgeInsets.only(top: _height / 40.0),
+      margin: EdgeInsets.only(top: _height / 70.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -388,40 +410,8 @@ class _SignupState extends State<SignUpScreen> {
     );
   }
 
-  Widget socialIconsRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 80.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          CircleAvatar(
-            radius: 20,
-            child:  GestureDetector(
-              onTap: (){
-                print('Google');
-              },
-              child:SvgPicture.asset("assets/svg/google-plus.svg"),)
-            
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          CircleAvatar(
-            radius: 20,
-            child: GestureDetector(
-              onTap: (){
-                print('Facebook');
-              },
-              child:SvgPicture.asset("assets/svg/facebook.svg"),)
-              ),
-        ],
-      ),
-    );
-  }
-
   Widget signInTextRow() {
     return Container(
-      margin: EdgeInsets.only(top: _height / 45.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
