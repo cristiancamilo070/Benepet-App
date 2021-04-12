@@ -82,7 +82,7 @@ class _SignupState extends State<SignUpScreen> {
          updateUser.updateProfile(displayName:nombreCompleto);
         Navigator.of(context).pushReplacement(// puse este await posible quitar 
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => MainScreen(),
           ),
         );
       }

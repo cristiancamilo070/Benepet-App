@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:benepet/main.dart';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 import 'package:benepet/src/pages/home/home_page.dart';
 import 'package:benepet/src/widgets/login_bg.dart';
@@ -65,7 +66,7 @@ class _LoginState extends State<LoginScreen> {
        
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => MainScreen(),
           ),
         );
       }
