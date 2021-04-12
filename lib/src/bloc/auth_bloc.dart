@@ -32,8 +32,7 @@ class AuthBloc {
   }
 
   }
-
-  logout() {
+  logout() async {
     authService.logout();
   }
 }

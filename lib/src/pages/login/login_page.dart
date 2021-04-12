@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:benepet/main.dart';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 import 'package:benepet/src/pages/home/home_page.dart';
 import 'package:benepet/src/pages/login/login_bg.dart';
@@ -62,9 +63,10 @@ class _LoginState extends State<LoginScreen> {
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
       if (fbUser != null) {
+       
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => MainScreen(),
           ),
         );
       }
@@ -82,7 +84,6 @@ class _LoginState extends State<LoginScreen> {
     if(_formKey.currentState.validate()){  
       _formKey.currentState.save();
       try{
-        // ignore: unused_local_variable
         UserCredential user = await _auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
       }
       catch(e){

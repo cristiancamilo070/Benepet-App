@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 import 'package:benepet/src/pages/login/login_page.dart';
+import 'package:benepet/src/utils/userHelper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,56 +68,125 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc=Provider.of<AuthBloc>(context);
+    //final authBloc=Provider.of<AuthBloc>(context);
       return Scaffold(
-      body: Container(
-        child: //!isloggedin? CircularProgressIndicator(): 
-          StreamBuilder<User>(
-            stream:authBloc.currentUser,
-            builder:(context,snapshot){
-            if (!snapshot.hasData) {
-              return CircularProgressIndicator();
-            }else{
-            return Column(
+        appBar: AppBar(
+        title: Text('Admin Home'),
+        ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 40.0),
-            Container(
-            height: 300,
-            ),     
-            Container(
-              child: Text("Hello ADMIN ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
-              //child: Text("Hello } you are Logged in as",
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold
-              ),),
-            ),
-
-            // ignore: deprecated_member_use
-            RaisedButton(
-              padding: EdgeInsets.fromLTRB(70,10,70,10),
-            
-              onPressed: signOut,
-
-              child: Text('Signout',style: TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold
-              )
-              ),
-
-              color: Colors.orange,
-              shape: RoundedRectangleBorder(
-
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-            )
-          ],
-        );
-        }
-        },
+          StreamBuilder(
+              stream:FirebaseFirestore.instance.collection("Users").snapshots(),
+              builder:(BuildContext context, 
+              AsyncSnapshot<QuerySnapshot> snapshot){
+              if (snapshot.hasData&&snapshot.data!=null) {
+                final docs=snapshot.data.docs;
+                  return ListView.builder(
+                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final user = docs[index].data();                      
+                      return ListTile(  
+                        title: Text(user['name'] ?? user['email']),
+                       // onTap: ,
+                      );
+                    },  
+                  );
+              }
+              else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+          },
        ),
+      ElevatedButton(onPressed: (){signOut();}, child: Text("Log out"))
+      ]
+        ),
      )
     );
   }
 }
+
+// // class AdminHomePage extends StatelessWidget {
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return Scaffold(
+// //       appBar: AppBar(
+// //         title: Text('Admin Home'),
+// //       ),
+// //       body: SingleChildScrollView(
+// //         child: Column(
+// //           crossAxisAlignment: CrossAxisAlignment.start,
+// //           children: <Widget>[
+// //             StreamBuilder(
+// //               stream:
+// //                   FirebaseFirestore.instance.collection("users").snapshots(),
+// //               builder: (BuildContext context,
+// //                   AsyncSnapshot<QuerySnapshot> snapshot) {
+// //                 if (snapshot.hasData && snapshot.data != null) {
+// //                   final docs = snapshot.data.docs;
+// //                   return ListView.builder(
+// //                     shrinkWrap: true,
+// //                     physics: NeverScrollableScrollPhysics(),
+// //                     itemCount: docs.length,
+// //                     itemBuilder: (BuildContext context, int index) {
+// //                       final user = docs[index].data();
+// //                       return ListTile(
+// //                         title: Text(user['name'] ?? user['email']),
+// //                       );
+// //                     },
+// //                   );
+// //                 } else {
+// //                   return Center(
+// //                     child: CircularProgressIndicator(),
+// //                   );
+// //                 }
+// //               },
+// //             ),
+// //             RaisedButton(
+// //               child: Text("Log out"),
+// //               onPressed: () {
+// //                 AuthHelper.logOut();
+// //               },
+// //             )
+// //           ],
+// //         ),
+// //       ),
+// //     );
+// //   }
+// // }
+
+//COPIAAAAAAAAAAAAA
+//  return Scaffold(
+    //     appBar: AppBar(
+    //     title: Text('Admin Home'),
+    //     ),
+    //   body: Container(
+    //     child: //!isloggedin? CircularProgressIndicator(): 
+    //       StreamBuilder(
+    //         stream:FirebaseFirestore.instance.collection("Users").snapshots(),
+    //         builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+    //         if (!snapshot.hasData&&snapshot.data!=null) {
+    //           final docs=snapshot.data.docs;
+    //           return Container(
+    //             width: 10,
+    //             height: 12,
+    //               child: ListView.builder(
+    //               shrinkWrap: false,
+    //               physics: NeverScrollableScrollPhysics(),
+    //               itemCount: docs.length,
+    //               itemBuilder:(BuildContext context,int index){
+    //                 final user = docs[index].data();
+    //                 return ListTile(title: Text(user['name']??user['email']),) ;
+    //               },  
+    //             ),
+    //           );
+    //         }
+    //     },
+    //    ),
+    //  )
+    // );

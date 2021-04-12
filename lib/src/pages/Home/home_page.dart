@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   }
 
    signOut()async{
+    
     _auth.signOut();
   }
 
@@ -55,7 +56,8 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       }
-    });
+    }
+    );
     super.initState();
   }
 
@@ -96,9 +98,9 @@ class _HomePageState extends State<HomePage> {
             // ignore: deprecated_member_use
             RaisedButton(
               padding: EdgeInsets.fromLTRB(70,10,70,10),
-            
-              onPressed: signOut,
-
+             
+              onPressed: ()=>authBloc.logout(),//signOut,
+             
               child: Text('Signout',style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
