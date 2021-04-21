@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 import 'package:benepet/src/pages/login/login_page.dart';
-import 'package:benepet/src/utils/userHelper.dart';
+import 'package:benepet/src/widgets/home_bg.dart';
+import 'package:benepet/src/widgets/menu_admin_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,18 @@ class HomeAdminPage extends StatefulWidget {
 
 class _HomeAdminPageState extends State<HomeAdminPage> {
 
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User user;
   bool isloggedin= false;
   StreamSubscription<User> loginStateSubscription;//cancelar el listener 
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
+    //COLORES--------------------
+  final Color primario=Color(0XFF364f6b);
+  final Color secundario=Color(0XFF3fc1c9);
+  final Color terciario=Color(0XFFfc5185);
+  final Color background=Color(0XFFf5f5f5);
 
   checkAuthentification() async{
     _auth.authStateChanges().listen((user) { 
@@ -62,131 +71,106 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 
   @override
   void dispose() {
-    loginStateSubscription.cancel();
+    loginStateSubscription.cancel();//add ? to all de dispose's methods 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    //final authBloc=Provider.of<AuthBloc>(context);
-      return Scaffold(
-        appBar: AppBar(
-        title: Text('Admin Home'),
-        ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-          StreamBuilder(
-              stream:FirebaseFirestore.instance.collection("Users").snapshots(),
-              builder:(BuildContext context, 
-              AsyncSnapshot<QuerySnapshot> snapshot){
-              if (snapshot.hasData&&snapshot.data!=null) {
-                final docs=snapshot.data.docs;
-                  return ListView.builder(
-                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final user = docs[index].data();                      
-                      return ListTile(  
-                        title: Text(user['name'] ?? user['email']),
-                       // onTap: ,
-                      );
-                    },  
-                  );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home Admin"),
+        backgroundColor: secundario,
+      ),
+      drawer: MenuAdminWidget(),
+      body: Container(
+          child: HomeBackground(
+            child: SingleChildScrollView(
+            child: Container(
+        child: SingleChildScrollView(child: Column(children: [
+          ElevatedButton(
+              onPressed: (){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("cargando"),
+                ));
               }
-              else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-          },
-       ),
-      ElevatedButton(onPressed: (){signOut();}, child: Text("Log out"))
-      ]
+              , child: Text("snakebar")
+              )
+        ],),),
         ),
-     )
+        )
+        )
+      )
+
     );
-  }
 }
+  // Widget _crearListado() {
 
-// // class AdminHomePage extends StatelessWidget {
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //         title: Text('Admin Home'),
-// //       ),
-// //       body: SingleChildScrollView(
-// //         child: Column(
-// //           crossAxisAlignment: CrossAxisAlignment.start,
-// //           children: <Widget>[
-// //             StreamBuilder(
-// //               stream:
-// //                   FirebaseFirestore.instance.collection("users").snapshots(),
-// //               builder: (BuildContext context,
-// //                   AsyncSnapshot<QuerySnapshot> snapshot) {
-// //                 if (snapshot.hasData && snapshot.data != null) {
-// //                   final docs = snapshot.data.docs;
-// //                   return ListView.builder(
-// //                     shrinkWrap: true,
-// //                     physics: NeverScrollableScrollPhysics(),
-// //                     itemCount: docs.length,
-// //                     itemBuilder: (BuildContext context, int index) {
-// //                       final user = docs[index].data();
-// //                       return ListTile(
-// //                         title: Text(user['name'] ?? user['email']),
-// //                       );
-// //                     },
-// //                   );
-// //                 } else {
-// //                   return Center(
-// //                     child: CircularProgressIndicator(),
-// //                   );
-// //                 }
-// //               },
-// //             ),
-// //             RaisedButton(
-// //               child: Text("Log out"),
-// //               onPressed: () {
-// //                 AuthHelper.logOut();
-// //               },
-// //             )
-// //           ],
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
+  //   return FutureBuilder(
+  //     future: productosProvider.cargarProductos(),
+  //     builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
+  //       if ( snapshot.hasData ) {
 
-//COPIAAAAAAAAAAAAA
-//  return Scaffold(
-    //     appBar: AppBar(
-    //     title: Text('Admin Home'),
-    //     ),
-    //   body: Container(
-    //     child: //!isloggedin? CircularProgressIndicator(): 
-    //       StreamBuilder(
-    //         stream:FirebaseFirestore.instance.collection("Users").snapshots(),
-    //         builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-    //         if (!snapshot.hasData&&snapshot.data!=null) {
-    //           final docs=snapshot.data.docs;
-    //           return Container(
-    //             width: 10,
-    //             height: 12,
-    //               child: ListView.builder(
-    //               shrinkWrap: false,
-    //               physics: NeverScrollableScrollPhysics(),
-    //               itemCount: docs.length,
-    //               itemBuilder:(BuildContext context,int index){
-    //                 final user = docs[index].data();
-    //                 return ListTile(title: Text(user['name']??user['email']),) ;
-    //               },  
-    //             ),
-    //           );
-    //         }
-    //     },
-    //    ),
-    //  )
-    // );
+  //         final productos = snapshot.data;
+
+  //         return ListView.builder(
+  //           itemCount: productos.length,
+  //           itemBuilder: (context, i) => _crearItem(context, productos[i] ),
+  //         );
+
+  //       } else {
+  //         return Center( child: CircularProgressIndicator());
+  //       }
+  //     },
+  //   );
+  // }
+// Widget _crearItem(BuildContext context, ProductoModel producto ) {
+
+//     return Dismissible(
+//       key: UniqueKey(),
+//       background: Container(
+//         color: Colors.red,
+//       ),
+//       onDismissed: ( direccion ){
+//         productosProvider.borrarProducto(producto.id);
+//       },
+//       child: Card(
+//         child: Column(
+//           children: <Widget>[
+
+//             ( producto.fotoUrl == null ) 
+//               ? Image(image: AssetImage('assets/no-image.png'))
+//               : FadeInImage(
+//                 image: NetworkImage( producto.fotoUrl ),
+//                 placeholder: AssetImage('assets/jar-loading.gif'),
+//                 height: 300.0,
+//                 width: double.infinity,
+//                 fit: BoxFit.cover,
+//               ),
+            
+//             ListTile(
+//               title: Text('${ producto.titulo } - ${ producto.valor }'),
+//               subtitle: Text( producto.id ),
+//               onTap: () => Navigator.pushNamed(context, 'producto', arguments: producto ),
+//             ),
+
+//           ],
+//         ),
+//       )
+//     );
+
+
+    
+
+//   }
+
+
+//   _crearBoton(BuildContext context) {
+//     return FloatingActionButton(
+//       child: Icon( Icons.add ),
+//       backgroundColor: Colors.deepPurple,
+//       onPressed: ()=> Navigator.pushNamed(context, 'producto'),
+//     );
+//   }
+
+}

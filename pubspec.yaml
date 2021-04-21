@@ -41,6 +41,12 @@ dependencies:
   #info
   device_info: ^2.0.0
   package_info: ^2.0.0
+  #images
+  image_picker: ^0.7.4
+  mime_type: ^1.0.0
+  #http
+  http:
+  http_parser: ^4.0.0
 
 dev_dependencies:
   flutter_test:

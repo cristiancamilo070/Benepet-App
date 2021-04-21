@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 import 'package:benepet/src/pages/login/login_page.dart';
+import 'package:benepet/src/widgets/home_bg.dart';
+import 'package:benepet/src/widgets/menu_admin_widget.dart';
+import 'package:benepet/src/widgets/menu_user_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +15,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+    //COLORES--------------------
+  final Color primario=Color(0XFF364f6b);
+  final Color secundario=Color(0XFF3fc1c9);
+  final Color terciario=Color(0XFFfc5185);
+  final Color background=Color(0XFFf5f5f5);
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User user;
@@ -72,53 +81,54 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final authBloc=Provider.of<AuthBloc>(context);
       return Scaffold(
+      appBar:AppBar(
+      title: Text('Home'),
+      backgroundColor: terciario.withOpacity(0.8)
+      ) ,
+      drawer: MenuUserWidget(),
       body: Container(
-        child: //!isloggedin? CircularProgressIndicator(): 
-          StreamBuilder<User>(
-            stream:authBloc.currentUser,
-            builder:(context,snapshot){
-            if (!snapshot.hasData) {
-              return CircularProgressIndicator();
-            }else{
-            return Column(
-          children: <Widget>[
-            SizedBox(height: 40.0),
-            Container(
-            height: 300,
-            ),     
-            Container (
-              child:  Text("Hello ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
-              //child: Text("Hello } you are Logged in as",
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold
-              ),),
-            ),
-
-            // ignore: deprecated_member_use
-            RaisedButton(
-              padding: EdgeInsets.fromLTRB(70,10,70,10),
-             
-              onPressed: ()=>authBloc.logout(),//signOut,
-             
-              child: Text('Signout',style: TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold
-              )
-              ),
-
-              color: Colors.orange,
-              shape: RoundedRectangleBorder(
-
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-            )
-          ],
-        );
-        }
-        },
+        child:   HomeBackground(
+          child: SingleChildScrollView(
+            child: StreamBuilder<User>(
+              stream:authBloc.currentUser,
+              builder:(context,snapshot){
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }else{
+              return Column(
+              children: <Widget>[
+                SizedBox(height: 40.0),
+                Container(
+                height: 300,
+                ),     
+                Container (
+                  child:  Text("Hello ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
+                  //child: Text("Hello } you are Logged in as",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold
+                  ),),
+                ),
+                // ignore: deprecated_member_use
+                ElevatedButton(
+                 
+                 
+                  onPressed: ()=>authBloc.logout(),//signOut,
+                 
+                  child: Text('Signout',style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold
+                  )
+                  ),
+                )
+              ],
+          );
+          }
+          },
        ),
+            ),
+        ),
      )
     );
   }

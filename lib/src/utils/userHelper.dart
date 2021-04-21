@@ -16,19 +16,16 @@ class UserHelper{
     Map<String,dynamic> userData={
       "name": nombreCompleto,
       "email":user.email,
-      "last_login":user.metadata.lastSignInTime.millisecondsSinceEpoch,
+      "last_login":user.metadata.lastSignInTime.day,
       "created_at":user.metadata.creationTime.millisecondsSinceEpoch,
       "role":"user",
-      "build_number":buildNumber
     };
 
   final userRef =_db.collection("Users").doc(user.email);//uid o email
 
   if ((await userRef.get()).exists) {
     await userRef.update({
-      "last_login":user.metadata.lastSignInTime.millisecondsSinceEpoch,
-      "build_number":buildNumber
-
+      "last_login":user.metadata.lastSignInTime.day,
     });
     }
     else{
@@ -42,30 +39,29 @@ class UserHelper{
     DeviceInfoPlugin deviceInfoPlugin=DeviceInfoPlugin();
     String deviceId;
     String modelo;
+    String plataforma;
     Map<String,dynamic>deviceData;
     if (Platform.isAndroid) {
       final deviceInfo=await deviceInfoPlugin.androidInfo;
       deviceId=deviceInfo.androidId;
-      deviceData={
-      //"os_version":deviceInfo.version.sdkInt.toString(),
-      "platform":"android",
-      "device":deviceInfo.device
-      };
+      // deviceData={
+      // "device":deviceInfo.device
+      // };
+      plataforma="Android";
       modelo=deviceInfo.model;
     }
     if (Platform.isIOS) {
       final deviceInfo=await deviceInfoPlugin.iosInfo;
       deviceId=deviceInfo.identifierForVendor;
-      deviceData={
-      //"os_version":deviceInfo.systemVersion,
-      "platform":"ios",
-      "device":deviceInfo.name
-      };
+      // deviceData={
+      // "device":deviceInfo.name
+      // };
+      plataforma="Ios";
       modelo=deviceInfo.model;
     }
     final nowMs=DateTime.now().millisecondsSinceEpoch;
 
-    final deviceRef=_db.collection("Users").doc(user.email).collection("Devices").doc(modelo);//uid o email
+    final deviceRef=_db.collection("Users").doc(user.email).collection("Devices").doc(plataforma);//uid o email
     if ((await deviceRef.get()).exists) {
       await deviceRef.update({
        "updated_at":nowMs,
@@ -73,11 +69,10 @@ class UserHelper{
        });
     } else{
       await deviceRef.set({
+        "modelo":modelo,
         "created_at": nowMs,
         "updated_at":nowMs,
         "id": deviceId,
-        "device_info": deviceData
-        //"unistalled":false,
     });
     }
   }

@@ -1,3 +1,8 @@
+import 'package:benepet/src/pages/home/config_user.dart';
+import 'package:benepet/src/pages/home/mascotas_user.dart';
+import 'package:benepet/src/pages/home/perfil_user.dart';
+import 'package:benepet/src/pages/home_admin/mascotas_admin.dart';
+import 'package:benepet/src/pages/home_admin/perfiles_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 
@@ -31,9 +36,10 @@ class MyApp extends StatelessWidget {
 
     return Provider(
       create: (context)=>AuthBloc(),
-          child: MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Benepet',
+        theme: ThemeData(primaryColor: Color(0XFFfc5185)),
         initialRoute: 'splash',
         routes:{
           'splash'        :(BuildContext context) =>SplashScreen(),
@@ -41,9 +47,17 @@ class MyApp extends StatelessWidget {
           'login'         :(BuildContext context) =>LoginScreen(),
           'signin'        :(BuildContext context) =>SignUpScreen(),
           'home'          :(BuildContext context) =>MainScreen(), 
-          'reset'         :(BuildContext context) =>ResetPasswordScreen(),                            
+          'reset'         :(BuildContext context) =>ResetPasswordScreen(),
+
+          'mascotasAdmin' :(BuildContext context) =>MascotasAdmin(),  
+          'perfilesAdmin' :(BuildContext context) =>PerfilesAdmin(),   
+
+          'mascotasUser'  :(BuildContext context) => MascotasUser(),  
+          'perfilUser'    :(BuildContext context) =>PerfilUser(),      
+          'configUser'    :(BuildContext context) =>ConfigUser(),           
         }
       ),
+      
     );
   }
 }
