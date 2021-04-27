@@ -30,19 +30,24 @@ class MenuUserWidget extends StatelessWidget {
           ),
         ),
         ListTile(
-        leading: Icon(Icons.pages,color: terciario),
-        title: Text('Home'),
+        leading: Icon(Icons.pets,color: terciario),
+        title: Text('Mascotas Disponibles'),
         onTap: (){Navigator.pushReplacementNamed(context,'home');},
         ),
         ListTile(
-        leading: Icon(Icons.pages,color: terciario),
-        title: Text('Mascotas'),
-        onTap: (){Navigator.pushReplacementNamed(context,'mascotasUser');},
+        leading: Icon(Icons.thumbs_up_down_outlined,color: terciario),
+        title: Text('Test de concientización'),
+        onTap: (){Navigator.pushReplacementNamed(context,'test');},
+        ),
+        ListTile(
+        leading: Icon(Icons.mood_sharp,color: terciario),
+        title: Text('Encontrar mascota ideal'),
+        onTap: (){Navigator.pushReplacementNamed(context,'afinidades');},
         ),
          ListTile(
-        leading: Icon(Icons.pages,color: terciario),
-        title: Text('Perfiles'),
-        onTap: (){Navigator.pushReplacementNamed(context,'perfilUser');},
+        leading: Icon(Icons.person_sharp,color: terciario),
+        title: Text('Perfil'),
+        onTap: (){Navigator.pushReplacementNamed(context,'perfilusuario');},
         ),
          ListTile(
         leading: Icon(Icons.pages,color: terciario),

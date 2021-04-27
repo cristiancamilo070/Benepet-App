@@ -23,10 +23,12 @@ class _ConfigUserState extends State<ConfigUser> {
   
 
   deleteAccount(BuildContext context)async{
+  
+  await _db.collection("Users").doc(FirebaseAuth.instance.currentUser.email).delete();
+  await  _db.collection("Users").doc(FirebaseAuth.instance.currentUser.email).collection("Devices").doc("Android").delete();
+  await _db.collection("Users").doc(FirebaseAuth.instance.currentUser.email).collection("Devices").doc("Ios").delete();
+
   _auth.currentUser.delete();
-  _db.collection("Users").doc(FirebaseAuth.instance.currentUser.email).delete();
-  _db.collection("Users").doc(FirebaseAuth.instance.currentUser.email).collection("Devices").doc("Android").delete();
-  _db.collection("Users").doc(FirebaseAuth.instance.currentUser.email).collection("Devices").doc("Ios").delete();
    Navigator.of(context).pushReplacementNamed('login');
   }  
 
@@ -35,7 +37,10 @@ class _ConfigUserState extends State<ConfigUser> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Configuración'),
-          backgroundColor: terciario.withOpacity(0.8)        
+          elevation: 7,
+          centerTitle: true,
+          shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(20.0)),
+          backgroundColor: terciario.withOpacity(0.8),  
         ),
         drawer: MenuUserWidget(),
         body:Container(

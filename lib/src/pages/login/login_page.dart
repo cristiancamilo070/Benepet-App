@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:benepet/main.dart';
 import 'package:benepet/src/bloc/auth_bloc.dart';
-import 'package:benepet/src/pages/home/home_page.dart';
 import 'package:benepet/src/widgets/login_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +83,7 @@ class _LoginState extends State<LoginScreen> {
     if(_formKey.currentState.validate()){  
       _formKey.currentState.save();
       try{
+        // ignore: unused_local_variable
         UserCredential user = await _auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
       }
       catch(e){

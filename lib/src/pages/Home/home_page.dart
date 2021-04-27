@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:benepet/src/bloc/auth_bloc.dart';
+import 'package:benepet/src/pages/home/mascotas_detalles_user.dart';
 import 'package:benepet/src/pages/login/login_page.dart';
+import 'package:benepet/src/utils/userAnimals.dart';
 import 'package:benepet/src/widgets/home_bg.dart';
-import 'package:benepet/src/widgets/menu_admin_widget.dart';
 import 'package:benepet/src/widgets/menu_user_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,46 +17,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-    //COLORES--------------------
+  //COLORES--------------------
   final Color primario=Color(0XFF364f6b);
   final Color secundario=Color(0XFF3fc1c9);
   final Color terciario=Color(0XFFfc5185);
   final Color background=Color(0XFFf5f5f5);
 
+  final productoProvider = new AnimalsHelper();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User user;
   bool isloggedin= false;
   StreamSubscription<User> loginStateSubscription;//cancelar el listener 
 
-  checkAuthentification() async{
 
-    _auth.authStateChanges().listen((user) { 
-      if(user !=null){
-        Navigator.pushNamed(context, 'home');
-      }
-      else{ Navigator.pushNamed(context, 'signup');}
-    });
-  }
-
-  getUser() async{
-    User firebaseUser = _auth.currentUser;
-    await firebaseUser?.reload();
-    firebaseUser = _auth.currentUser;
-    if(firebaseUser !=null){
-      setState(() {
-        this.user =firebaseUser;
-        this.isloggedin=true;
-      });
-    }
-  }
-
-   signOut()async{
-    
-    _auth.signOut();
-  }
-
-   @override
+  @override
   void initState() {
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
@@ -65,8 +41,7 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       }
-    }
-    );
+    });
     super.initState();
   }
 
@@ -79,57 +54,78 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc=Provider.of<AuthBloc>(context);
-      return Scaffold(
-      appBar:AppBar(
-      title: Text('Home'),
-      backgroundColor: terciario.withOpacity(0.8)
-      ) ,
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home "),
+        elevation: 7,
+        centerTitle: true,
+        shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(20.0)),
+        backgroundColor: terciario.withOpacity(0.8),
+      ),
       drawer: MenuUserWidget(),
       body: Container(
-        child:   HomeBackground(
-          child: SingleChildScrollView(
-            child: StreamBuilder<User>(
-              stream:authBloc.currentUser,
-              builder:(context,snapshot){
-              if (!snapshot.hasData) {
-                return CircularProgressIndicator();
-              }else{
-              return Column(
-              children: <Widget>[
-                SizedBox(height: 40.0),
-                Container(
-                height: 300,
-                ),     
-                Container (
-                  child:  Text("Hello ${snapshot.data.displayName} you are Logged in as ${snapshot.data.email}",
-                  //child: Text("Hello } you are Logged in as",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold
-                  ),),
-                ),
-                // ignore: deprecated_member_use
-                ElevatedButton(
-                 
-                 
-                  onPressed: ()=>authBloc.logout(),//signOut,
-                 
-                  child: Text('Signout',style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold
-                  )
-                  ),
-                )
-              ],
-          );
-          }
-          },
-       ),
-            ),
+          child: HomeBackground(
+            child: SingleChildScrollView(
+            child: Container(
+        child: SingleChildScrollView(child: 
+          Column(
+           children: [
+            _crearListado()
+        ],
         ),
-     )
+        ),
+        ),
+        )
+        )
+      )
+
     );
-  }
+}
+
+
+_crearListado() {
+return StreamBuilder(
+  stream: FirebaseFirestore.instance.collection("Mascotas").snapshots(),
+  builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (snapshot.hasData&&snapshot.data!=null) {
+      final docs=snapshot.data.docs;
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: docs.length,
+          itemBuilder: (BuildContext context, int i) {
+            final mascota = docs[i].data();                      
+            return Card(
+              child: Column(children:[               
+              (mascota['url'] == null )    
+                ? Image(image: AssetImage('assets/img/no-image.png'))
+                : FadeInImage(
+                  image: NetworkImage( mascota['url'] ),
+                  placeholder: AssetImage('assets/img/jar-loading.gif'),
+                  height: 300.0,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+                ListTile(  
+                  title: Text(mascota['id'] ?? mascota['nombre']),
+                  subtitle: Text(mascota['nombre']),
+                  onTap: ()  {
+                    //String masId=mascota['id'];
+                    //enviarDatos(masId);
+                    // String a =mascota['id'];
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                      return MascotaDettallesUser(mascota['id']);
+                    }) );
+                    }
+                ),
+              ]
+              ),
+            );
+          },  
+        );
+      }else return CircularProgressIndicator();
+    }
+  );
+}
 }

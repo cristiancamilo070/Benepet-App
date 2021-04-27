@@ -1,6 +1,4 @@
-
 import 'dart:io';
-import 'package:benepet/src/models/animales_model.dart';
 import 'package:benepet/src/utils/userAnimals.dart';
 import 'package:benepet/src/widgets/home_bg.dart';
 import 'package:benepet/src/widgets/menu_admin_widget.dart';
@@ -23,33 +21,29 @@ class _MascotasAdminState extends State<MascotasAdmin> {
   bool _medium;
 
   final formKey     = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final productoProvider = new AnimalsHelper();
   //final productoProvider = new ProductosProvider();
-
-   AnimalesModel animalesModel = new AnimalesModel();
+    
   File photo;
   
   //Colores--------------------
   final Color primario=Color(0XFF364f6b);
   final Color secundario=Color(0XFF3fc1c9);
   final Color terciario=Color(0XFFfc5185);
-  final Color background=Color(0XFFf5f5f5);
-
-  //Listas para dropdowns 
-  
+  final Color background=Color(0XFFf5f5f5);  
  
   //Controladores ---------------------
   TextEditingController nombreController = TextEditingController();
   TextEditingController idController = TextEditingController();
   bool disponible=true;
-  String _especieInit = 'Perro';
+  String _especieInit = 'Gato';
   List<String> _especie = ['Perro','Gato'];
   String _sexoInit = 'Macho';
   List<String> _sexo = ['Macho','Hembra'];
   String _edadCorInit = 'Años';
   List<String> _edadCor = ['Años','Meses'];
   TextEditingController edadController = TextEditingController();
+  //String apData="";
   bool apJugueton=false, apAmoroso=false, apTranquilo=false, apEducado=false, apActivo=false, apDormilon=false, apTimido=false;
   TextEditingController historiaController = TextEditingController();
   String _tamanoInit = 'Mediano';
@@ -120,11 +114,6 @@ class _MascotasAdminState extends State<MascotasAdmin> {
                     Row(children:[Text('¿Cuál es el tamaño de la mascota?',style: TextStyle(color:primario,fontWeight:FontWeight.bold,fontSize: 16))]),               
                     _tamanoDrop(),
                     SizedBox(height: 5.0,),
-                    Row(children:[Text('¿Cuál es el tipo de pelo de la mascota?',style: TextStyle(color:primario,fontWeight:FontWeight.bold,fontSize: 16))]), 
-                    _peloDrop(),
-                    SizedBox(height: 5.0,),
-                    Row(children:[Text('¿Cuántos colores tiene la mascota?',style: TextStyle(color:primario,fontWeight:FontWeight.bold,fontSize: 16))]), 
-                    _colorPeloDrop(),
                     _saludCheck(),
                     _aptoNinos(),
                     _conPerros(),
@@ -146,7 +135,7 @@ Widget _idMascota() {
       controller: idController,
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       textCapitalization: TextCapitalization.sentences,
-      onSaved: (value) => idController.text = value,//animalesModel.titulo = value,
+      onSaved: (value) => idController.text = value,//???
       decoration: InputDecoration(
                 hintText: "Escribe el ID de la mascota",
                 labelStyle: TextStyle(color: primario ),
@@ -161,7 +150,7 @@ Widget _nombreMascota() {
       //initialValue: animalesModel.titulo,
       controller: nombreController,
       textCapitalization: TextCapitalization.sentences,
-      onSaved: (value) => nombreController.text = value,//animalesModel.titulo = value,
+      onSaved: (value) =>nombreController.text = value,//animalesModel.titulo = value ????
       decoration: InputDecoration(
                 hintText: "Escribe el nombre",
                 labelStyle: TextStyle(color: primario ),
@@ -547,62 +536,7 @@ List<DropdownMenuItem<String>> getTamano(){
   return lista;
 }
 
-//--------------------------------DROP Pelo-------------------------------
-Widget _peloDrop(){
-  return Row(
-    children: [
-      Icon(Icons.compass_calibration_rounded,color: terciario,),
-      SizedBox(width: 30.0,),
-      Expanded(
-        child: DropdownButton(
-         iconEnabledColor: terciario,
-         value: _peloInit,
-         items: getPelo(),
-         onChanged: (opt){
-          setState(() {
-            _peloInit=opt;
-          }
-          );
-        },
-      ),
-     ),
-     SizedBox(width: 30.0,),
-    ],
-  ); 
-}
-List<DropdownMenuItem<String>> getPelo(){
-  List<DropdownMenuItem<String>> lista=[];
-  _pelo.forEach((x) { 
-    lista.add(DropdownMenuItem(
-      child: Text(x,style: TextStyle(color:terciario,fontWeight:FontWeight.bold)),
-      value: x,
-    ));
-  });
-  return lista;
-}
-//--------------------------------DROP Pelo-------------------------------
-Widget _colorPeloDrop(){
-  return Row(
-    children: [
-      Icon(Icons.colorize_rounded ,color: terciario,),
-      SizedBox(width: 30.0,),
-      Expanded(
-        child: DropdownButton(
-         iconEnabledColor: terciario,
-         value: _colorPeloInit,
-         items: getColorPelo(),
-         onChanged: (opt){
-          setState(() {
-            _colorPeloInit=opt;
-          }
-          );
-        },
-      ),
-     ),
-     SizedBox(width: 30.0,),
-    ],
-  ); 
-}
+
 List<DropdownMenuItem<String>> getColorPelo(){
   List<DropdownMenuItem<String>> lista=[];
   _colorPelo.forEach((x) { 
@@ -748,44 +682,108 @@ Widget _conEspecial() {
   }
 
 void _submit() async {
-    edadController.text=edadController.text+" "+_edadCorInit;
+    //apData=_procesarDara(apJugueton, apAmoroso, apTranquilo, apEducado, apActivo, apDormilon, apTimido);
     if ( !formKey.currentState.validate() ) return;
     formKey.currentState.save();
     if ( photo != null ) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Publicando... espera unos segundos."),
-      ));
-      _photoUrl = await productoProvider.subirImagen(photo);
+
+      
       try{
       User madrina=FirebaseAuth.instance.currentUser;
-      await AnimalsHelper.saveAnimal(madrina, idController.text, nombreController.text, disponible,
-                              _especieInit,  _sexoInit, edadController.text,
-                              apJugueton, apAmoroso, apTranquilo, apEducado, apActivo, apDormilon, apTimido,
-                              historiaController.text, _peloInit, _colorPeloInit,
-                              saludDes, saludVac, saludEste, saludVirales,
-                              _tamanoInit, aptoNinos, conPerros,  conGatos,
-                              vivCasa, vivApto, vivFinca, especial, _photoUrl); 
+      if (await AnimalsHelper.verificarAnimal(idController.text)==false) {//agregado ???
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Publicando... espera unos segundos."),
+      ));
+        _photoUrl = await productoProvider.subirImagen(photo);
+        await AnimalsHelper.saveAnimal(madrina, idController.text, nombreController.text, disponible,
+                          _especieInit,  _sexoInit, edadController.text,_edadCorInit,
+                          apJugueton, apAmoroso, apTranquilo, apEducado, apActivo, apDormilon, apTimido,
+                          historiaController.text,
+                          saludDes, saludVac, saludEste, saludVirales,
+                          _tamanoInit, aptoNinos, conPerros,  conGatos,
+                          vivCasa, vivApto, vivFinca, especial, _photoUrl); 
+       Navigator.of(context).pushReplacementNamed('home');
+       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("La mascota se ha publicado exitosamente!"),
+                ));   
+      }else{
+         showAlertDialog(context);
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //       content: Text("La mascota ya existe, deseas actualizarla?"),
+        //     ));
+      }
      }catch(e){
         showError(e.message);
         print(e);}
-    } 
-    Navigator.of(context).pushReplacementNamed('home');
+    } else {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("La mascota se ha publicado exitosamente!"),
-                ));           
+                  content: Text("No olvides añadir una imagen"),
+                )); 
+    }
+            
 
 }
-_procesarDara(){//Testing this one 
-  String apData="";
-  if (apJugueton=true) {apData=apData+"1";} else {apData=apData+"0";}
-  if (apAmoroso=true) {apData=apData+"1";} else {apData=apData+"0";}
-  if (apTranquilo=true) {apData=apData+"1";} else {apData=apData+"0";}
-  if (apEducado=true) {apData=apData+"1";} else {apData=apData+"0";}
-  if (apActivo=true) {apData=apData+"1";} else {apData=apData+"0";}
-  if (apDormilon=true) {apData=apData+"1";} else {apData=apData+"0";}
-  if (apTimido=true) {apData=apData+"1";} else {apData=apData+"0";}
-  return apData;
+showAlertDialog(BuildContext context) {
+  Widget cancelButton = ElevatedButton(
+    child: Text("Cancelar"),
+        style: ElevatedButton.styleFrom(
+         primary: primario,
+         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
+         elevation: 4,
+         textStyle: TextStyle(color: background),
+         padding: EdgeInsets.all(0.0)
+      ),
+    onPressed:  () { Navigator.of(context).pop();},
+  );
+  Widget continueButton = ElevatedButton(
+    child: Text("Actualizar",style:TextStyle(fontWeight:FontWeight.bold) ),
+    style: ElevatedButton.styleFrom(
+         primary: terciario,
+         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
+         elevation: 4,
+         textStyle: TextStyle(color: background),
+         padding: EdgeInsets.all(0.0)
+      ),
+    onPressed:  () async {
+      User madrina=FirebaseAuth.instance.currentUser;
+      try{
+        _photoUrl = await productoProvider.subirImagen(photo);
+        await AnimalsHelper.saveAnimal(madrina, idController.text, nombreController.text, disponible,
+                          _especieInit,  _sexoInit, edadController.text,_edadCorInit,
+                          apJugueton, apAmoroso, apTranquilo, apEducado, apActivo, apDormilon, apTimido,
+                          historiaController.text,
+                          saludDes, saludVac, saludEste, saludVirales,
+                          _tamanoInit, aptoNinos, conPerros,  conGatos,
+                          vivCasa, vivApto, vivFinca, especial, _photoUrl); 
+       Navigator.of(context).pushReplacementNamed('home');
+       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("La mascota actualizado correctamente"),
+                )); 
+      }catch(e){
+        showError(e.message);
+        print(e);}
+
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("¡La mascota ya existe!",style:TextStyle(fontWeight:FontWeight.bold) ,),
+    content: Text("¿Quieres actualizar o remplazar los datos de la actual?"),
+    elevation: 10,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
+
 
 _mostrarFoto() {
     if (_photoUrl != null) {
@@ -818,7 +816,7 @@ _procesarImagen(ImageSource origin) async {
  
     final pickedFile = await _picker.getImage(
       source: origin,
-      imageQuality: 15
+      //imageQuality: 15
     );
     
     photo = File(pickedFile.path);
@@ -851,13 +849,4 @@ showError(String errormessage){
    );
   }
 
- void mostrarSnackbar(String mensaje) {
-
-    final snackbar = SnackBar(
-      content: Text( mensaje ),
-      duration: Duration( milliseconds: 1500),
-    );
-
-    scaffoldMessengerKey.currentState.showSnackBar(snackbar);//Test falta lista de fotos after this 
-  }
 }

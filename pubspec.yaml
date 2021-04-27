@@ -41,6 +41,7 @@ dependencies:
   #info
   device_info: ^2.0.0
   package_info: ^2.0.0
+  deep_collection: ^1.0.1
   #images
   image_picker: ^0.7.4
   mime_type: ^1.0.0

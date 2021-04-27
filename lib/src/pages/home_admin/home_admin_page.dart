@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'package:benepet/src/bloc/auth_bloc.dart';
+import 'package:benepet/src/pages/home_admin/mascotas_detalles_admin.dart';
 import 'package:benepet/src/pages/login/login_page.dart';
+import 'package:benepet/src/utils/userAnimals.dart';
 import 'package:benepet/src/widgets/home_bg.dart';
 import 'package:benepet/src/widgets/menu_admin_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 class HomeAdminPage extends StatefulWidget {
 
   @override
@@ -14,45 +17,19 @@ class HomeAdminPage extends StatefulWidget {
 
 }
 
+
 class _HomeAdminPageState extends State<HomeAdminPage> {
-
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-  bool isloggedin= false;
-  StreamSubscription<User> loginStateSubscription;//cancelar el listener 
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
-    //COLORES--------------------
+  //COLORES--------------------
   final Color primario=Color(0XFF364f6b);
   final Color secundario=Color(0XFF3fc1c9);
   final Color terciario=Color(0XFFfc5185);
   final Color background=Color(0XFFf5f5f5);
 
-  checkAuthentification() async{
-    _auth.authStateChanges().listen((user) { 
-      if(user !=null){
-        Navigator.pushNamed(context, 'home');
-      }
-      else{ Navigator.pushNamed(context, 'signup');}
-    });
-  }
-
-  getUser() async{
-    User firebaseUser = _auth.currentUser;
-    await firebaseUser?.reload();
-    firebaseUser = _auth.currentUser;
-    if(firebaseUser !=null){
-      setState(() {
-        this.user =firebaseUser;
-        this.isloggedin=true;
-      });
-    }
-  }
-
-  signOut()async{
-    _auth.signOut();
-  }
+  final productoProvider = new AnimalsHelper();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User user;
+  bool isloggedin= false;
+  StreamSubscription<User> loginStateSubscription;//cancelar el listener 
 
   @override
   void initState() {
@@ -77,6 +54,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Home Admin"),
@@ -87,16 +65,13 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           child: HomeBackground(
             child: SingleChildScrollView(
             child: Container(
-        child: SingleChildScrollView(child: Column(children: [
-          ElevatedButton(
-              onPressed: (){
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("cargando"),
-                ));
-              }
-              , child: Text("snakebar")
-              )
-        ],),),
+        child: SingleChildScrollView(child: 
+          Column(
+           children: [
+            _crearListado()
+        ],
+        ),
+        ),
         ),
         )
         )
@@ -104,73 +79,50 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 
     );
 }
-  // Widget _crearListado() {
-
-  //   return FutureBuilder(
-  //     future: productosProvider.cargarProductos(),
-  //     builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
-  //       if ( snapshot.hasData ) {
-
-  //         final productos = snapshot.data;
-
-  //         return ListView.builder(
-  //           itemCount: productos.length,
-  //           itemBuilder: (context, i) => _crearItem(context, productos[i] ),
-  //         );
-
-  //       } else {
-  //         return Center( child: CircularProgressIndicator());
-  //       }
-  //     },
-  //   );
-  // }
-// Widget _crearItem(BuildContext context, ProductoModel producto ) {
-
-//     return Dismissible(
-//       key: UniqueKey(),
-//       background: Container(
-//         color: Colors.red,
-//       ),
-//       onDismissed: ( direccion ){
-//         productosProvider.borrarProducto(producto.id);
-//       },
-//       child: Card(
-//         child: Column(
-//           children: <Widget>[
-
-//             ( producto.fotoUrl == null ) 
-//               ? Image(image: AssetImage('assets/no-image.png'))
-//               : FadeInImage(
-//                 image: NetworkImage( producto.fotoUrl ),
-//                 placeholder: AssetImage('assets/jar-loading.gif'),
-//                 height: 300.0,
-//                 width: double.infinity,
-//                 fit: BoxFit.cover,
-//               ),
-            
-//             ListTile(
-//               title: Text('${ producto.titulo } - ${ producto.valor }'),
-//               subtitle: Text( producto.id ),
-//               onTap: () => Navigator.pushNamed(context, 'producto', arguments: producto ),
-//             ),
-
-//           ],
-//         ),
-//       )
-//     );
-
-
-    
-
-//   }
-
-
-//   _crearBoton(BuildContext context) {
-//     return FloatingActionButton(
-//       child: Icon( Icons.add ),
-//       backgroundColor: Colors.deepPurple,
-//       onPressed: ()=> Navigator.pushNamed(context, 'producto'),
-//     );
-//   }
+  
+_crearListado() {
+return StreamBuilder(
+  stream: FirebaseFirestore.instance.collection("Mascotas").snapshots(),
+  builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (snapshot.hasData&&snapshot.data!=null) {
+      final docs=snapshot.data.docs;
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: docs.length,
+          itemBuilder: (BuildContext context, int i) {
+            final mascota = docs[i].data();                      
+            return Card(
+              child: Column(children:[               
+              (mascota['url'] == null )    
+                ? Image(image: AssetImage('assets/img/no-image.png'))
+                : FadeInImage(
+                  image: NetworkImage( mascota['url'] ),
+                  placeholder: AssetImage('assets/img/jar-loading.gif'),
+                  height: 300.0,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+                ListTile(  
+                  title: Text(mascota['id'] ?? mascota['nombre']),
+                  subtitle: Text(mascota['nombre']),
+                  onTap: ()  {
+                    //String masId=mascota['id'];
+                    //enviarDatos(masId);
+                    // String a =mascota['id'];
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                      return MascotaDettalles(mascota['id']);
+                    }) );
+                    }
+                ),
+              ]
+              ),
+            );
+          },  
+        );
+      }else return CircularProgressIndicator();
+    }
+  );
+}
 
 }
