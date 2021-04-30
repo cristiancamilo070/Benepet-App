@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:deep_collection/deep_collection.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'lista_mascotas_afines.dart';
 class ProcesarAfinidadesUser extends StatefulWidget {
@@ -19,8 +21,6 @@ class _ProcesarAfinidadesUserState extends State<ProcesarAfinidadesUser> {
   
   @override
   void initState() {
-    //this._evalAfinidades();
-    //print(_evalAfinidades());
     super.initState();
   }
   final List<String> finalList=<String>[];
@@ -51,12 +51,12 @@ Widget build(BuildContext context) {
 //_evalAfinidades();
 return Scaffold(
   appBar: AppBar(
-    title: Text("Mascotas afines "),
-    elevation: 7,
-    centerTitle: true,
-    shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(20.0)),
-    backgroundColor: terciario.withOpacity(0.8),
-  ),
+      title: Text('Afinidades'),
+      elevation: 7,
+      centerTitle: true,
+      shape: RoundedRectangleBorder(borderRadius:  BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),),
+      backgroundColor: terciario.withOpacity(0.8),
+    ),
   drawer: MenuUserWidget(),
        body:  Container(
           child: HomeBackground(
@@ -65,6 +65,14 @@ return Scaffold(
                child: SingleChildScrollView(child: 
                 Column(
                   children: [
+                    SizedBox(height: 30,),
+                    _logo('assets/svg/1.svg'),
+                    _descriptionText("A continuación podrás conocer tus mascotas afines"),
+                    SizedBox(height: 30,),
+
+                    _descriptionText2("Este proceso puede tarder unos seguntos, espere un poco."),
+                    SizedBox(height: 30,),
+
                    _boton(),
                   ],
                 ),
@@ -77,32 +85,80 @@ return Scaffold(
   );
   
 }
-
-//-------------------------BOTON DEL FINAL ---------------------------------------------------------
-  Widget _boton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: primario,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
-        elevation: 3,
-        textStyle: TextStyle(color: background),
-        padding: EdgeInsets.all(0.0)
-    ),
-    onPressed: (){
-     _subir();
-    },
-    child: Ink(
-      decoration:BoxDecoration(
-      gradient: LinearGradient(colors: [terciario.withOpacity(0.6), terciario]),
-      borderRadius: BorderRadius.circular(20)) ,
-      child:Container(
-        constraints: BoxConstraints.tightFor(width: _width/2.5, height: _height/18),//tamaño botón
-        alignment: Alignment.center,
-        child: Text('Ver ahora',style: TextStyle(fontSize: _large? 19: (_medium? 15: 13), fontWeight: FontWeight.bold, color: Colors.white))
-      )
-    ),
+Widget _logo(String imagen) {
+return Container(
+      alignment: Alignment.bottomCenter,
+      margin: EdgeInsets.only(right: 15,left: 15),
+      child: SvgPicture.asset(
+        imagen,
+        height: _height/3.3,
+        width: _width/3.5,
+      ),
+  );
+}
+Widget _descriptionText(String descripcion) {
+  return Container(
+      margin:EdgeInsets.only(right: 15,left: 15,top: 5,bottom: 5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            descripcion,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.frederickaTheGreat(
+              fontWeight: FontWeight.bold,
+              fontSize: 38,
+              color: primario
+            ),
+          ),
+        ],
+      ),
   );
   }
+  Widget _descriptionText2(String descripcion) {
+  return Container(
+      margin:EdgeInsets.only(right: 15,left: 15,top: 5,bottom: 5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            descripcion,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.spinnaker(
+              fontSize: 17,
+              color: primario
+            ),
+          ),
+        ],
+      ),
+  );
+  }
+  Widget _boton() {
+    return Center(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: primario,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+          elevation: 3,
+          textStyle: TextStyle(color: background),
+          padding: EdgeInsets.all(0.0)
+      ),
+      onPressed: (){
+       _subir();
+      },
+      child: Ink(
+        decoration:BoxDecoration(
+        gradient: LinearGradient(colors: [terciario.withOpacity(0.6), terciario]),
+        borderRadius: BorderRadius.circular(20)) ,
+        child:Container(
+          constraints: BoxConstraints.tightFor(width: _width/2.5, height: _height/18),//tamaño botón
+          alignment: Alignment.center,
+          child: Text('Continuar',style: TextStyle(fontSize: _large? 19: (_medium? 15: 13), fontWeight: FontWeight.bold, color: Colors.white))
+        )
+      ),
+    ),
+  );
+}
 
 void _subir() async {
       var finalLis=await _evalAfinidades();
@@ -261,10 +317,11 @@ _evalAfinidades()async{
     var patioMedianoComp=await db.collection('Mascotas').where("tamano",whereIn:['Grande'] ).get();//ESTA BIEN 
       documents.addAll(patioMedianoComp.docs) ;  
     var patioGrandeComp=await db.collection('Mascotas').where("tamano",whereIn:['Mediano'] ).get();//ESTA BIEN 
-      documents.addAll(patioGrandeComp.docs) ;  
-  }
-  // var familiaComp=await db.collection('Mascotas').where("sexo",whereIn:[_familiaR] ).get();//POR AHORA NO 
+      documents.addAll(patioGrandeComp.docs) ;  }
+  // if(_familiaR=="Soltero"){
+  //   var familiaComp=await db.collection('Mascotas').where("sexo",whereIn:[_familiaR] ).get();//POR AHORA NO 
   //     documents.addAll(familiaComp.docs) ;
+  // }
   var ninosComp=await db.collection('Mascotas').where("ninos",whereIn:[_ninosR] ).get();//ESTA BIEN
      documents.addAll(ninosComp.docs) ;
 
@@ -316,7 +373,7 @@ _evalAfinidades()async{
       documents.addAll(rangoEdadComp.docs) ;
       }
   var especialComp=await db.collection('Mascotas').where("especial",whereIn:[especial] ).get();
-      for (var i = 0; i < 4; i++) {
+      for (var i = 0; i < 3; i++) {
       documents.addAll(especialComp.docs) ;
       }
  //LISTA DE STRINGS DE MASCOTASID

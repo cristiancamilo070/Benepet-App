@@ -2,18 +2,20 @@ import 'package:benepet/src/utils/userAnimals.dart';
 import 'package:benepet/src/widgets/home_bg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 // ignore: must_be_immutable
-class MascotaDettalles extends StatefulWidget {
+class MascotaDettallesAfines extends StatefulWidget {
  
   String xd="";
-  MascotaDettalles(this.xd);
+  MascotaDettallesAfines(this.xd);
 
   @override
-  _MascotaDettallesState createState() => _MascotaDettallesState();
+  _MascotaDettallesAfinesState createState() => _MascotaDettallesAfinesState();
 }
 
-class _MascotaDettallesState extends State<MascotaDettalles> {
+class _MascotaDettallesAfinesState extends State<MascotaDettallesAfines> {
    //COLORES--------------------
   final Color primario=Color(0XFF364f6b);
   final Color secundario=Color(0XFF3fc1c9);
@@ -61,7 +63,9 @@ class _MascotaDettallesState extends State<MascotaDettalles> {
                 _posterTitulo(idMascota),
                 _descripcion(idMascota),
                 _aptitudesMostrar(),
+                _madrina(idMascota),
                 _saludMostrar(),
+                _conEspecial(),
                 _viviendaMostrar(),
                 _compatibilidadesMostrar(),
                 SizedBox(height: 5.0,),
@@ -102,6 +106,7 @@ Widget _crearAppbar(String idMascota){
       centerTitle: true,
       background: FadeInImage(
         placeholder: AssetImage('assets/img/jar-loading.gif'),
+        
         image: NetworkImage( urlT.isNotEmpty? urlT:'https://res.cloudinary.com/cristiancruz070/image/upload/v1619056653/tqmy8sjozeeu0pda8sr2.png'),
         fadeInDuration: Duration(milliseconds:150 ),
         fit: BoxFit.cover,
@@ -165,6 +170,33 @@ Widget _posterTitulo(String idMascota){
           )
           )
         ],
+      ),
+    ),
+  );
+}
+Widget _madrina(String mascota){
+  return Card(
+    elevation: 2,
+    shape: BeveledRectangleBorder(borderRadius:  BorderRadius.circular(10.0),side: BorderSide(color: Colors.white, width: 1) ),
+    color: Colors.white,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+        child: Column(
+          children: [
+            ListTile(
+            leading: Icon(
+                Icons.person,
+                color: _colorCardTitulo(),
+              ),
+            title:Text("La madrina de esta mascota es: ",style: TextStyle(color: primario, fontSize: 20,fontWeight: FontWeight.bold)),
+            ),
+            //SizedBox(height: 5.0,),
+            Text(
+            (madrinaT=="cristiancruz070@gmail.com")?"Fundación Corazón Peludito":madrinaT,
+            style: TextStyle(color: primario, fontSize: 17,fontWeight: FontWeight.w400,fontStyle: FontStyle.italic),
+            textAlign: TextAlign.justify,
+          ),
+          ],
       ),
     ),
   );
@@ -506,10 +538,26 @@ return Card(
 );
 }
 
+Widget _conEspecial() {
+    return Card(
+      elevation: 2,
+  shape: BeveledRectangleBorder(borderRadius:  BorderRadius.circular(10.0),side: BorderSide(color: Colors.white, width: 1) ),
+  color: Colors.white,
+          child: SwitchListTile(
+        value: especialT,
+        title: Text('Si esta casilla está activa, la mascota cuenta con algún tipo de discapacidad o enfermedad tal como VIF+, VILeF+ (Gatos) u otras.',
+        textAlign: TextAlign.justify,
+        style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
+        activeColor: _colorAppbar(),
+        onChanged: (value)=> setState((){}),
+      ),
+    );
+  }
+
 Widget  _boton(String mascota) {
     return ElevatedButton.icon(
-      icon: Icon(Icons.clear_rounded, color: background),
-      label: Text('Eliminar mascota',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+      icon: Icon(Icons.pets_sharp, color: background),
+      label: Text('Descargar formulario de adopción',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
       style: ElevatedButton.styleFrom(
         
         primary: _colorAppbar(),
@@ -518,13 +566,12 @@ Widget  _boton(String mascota) {
         textStyle: TextStyle(color: background),
         padding: EdgeInsets.all(0.0)
     ),
-    onPressed: (){showAlertDialog( context,mascota);
-    },
+    onPressed: (){showAlertDialog(context);},
   );
   }
 
 
-showAlertDialog(BuildContext context,String mascota) {
+showAlertDialog(BuildContext context) {
   Widget cancelButton = ElevatedButton(
     child: Text("Cancelar"),
         style: ElevatedButton.styleFrom(
@@ -537,7 +584,7 @@ showAlertDialog(BuildContext context,String mascota) {
     onPressed:  () { Navigator.of(context).pop();},
   );
   Widget continueButton = ElevatedButton(
-    child: Text("Si",style:TextStyle(fontWeight:FontWeight.bold) ),
+    child: Text("Descargar",style:TextStyle(fontWeight:FontWeight.bold) ),
     style: ElevatedButton.styleFrom(
          primary: terciario,
          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
@@ -545,11 +592,13 @@ showAlertDialog(BuildContext context,String mascota) {
          textStyle: TextStyle(color: background),
          padding: EdgeInsets.all(0.0)
       ),
-    onPressed:  () {animalHelper.deleteMascota(mascota);Navigator.of(context).pushReplacementNamed('home');},
+    onPressed:  () {
+        launch('https://www.corazonpeludito.org/wp-content/uploads/2020/05/Solicitud-de-adopcion-Corazon-Peludito-2020.docx');
+      },
   );
   AlertDialog alert = AlertDialog(
-    title: Text("¿Quieres eliminar a esta mascota?",style:TextStyle(fontWeight:FontWeight.bold) ,),
-    content: Text("Esta acción no tiene reversa."),
+    title: Text("Descargar formulario",style:TextStyle(fontWeight:FontWeight.bold) ,),
+    content: Text('Una vez diligencies el formulario, deberas enviarlo a "adopcionescorazonpeludito@gmail.com".'),
     elevation: 10,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     

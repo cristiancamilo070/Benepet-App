@@ -177,13 +177,10 @@ class _SignupState extends State<SignUpScreen> {
             color: Colors.white,
             shape: BoxShape.circle,
           ),
-  //-------------ADD PHOTO------------
-          child: GestureDetector(
-              onTap: (){
-                print('Adding photo');
-              },
-
-              child: Icon(Icons.add_a_photo, size: _large? 40: (_medium? 33: 31),color: primario)
+          child: Container(
+              child: SvgPicture.asset(
+              'assets/svg/profile.svg', 
+              ),
               ),
         ),
       ],

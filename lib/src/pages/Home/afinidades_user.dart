@@ -83,7 +83,7 @@ class _AfinidadesUserState extends State<AfinidadesUser> {
       title: Text('Afinidades'),
       elevation: 7,
       centerTitle: true,
-      shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(20.0)),
+      shape: RoundedRectangleBorder(borderRadius:  BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),),
       backgroundColor: terciario.withOpacity(0.8),
     ),
     drawer: MenuUserWidget(),
@@ -597,7 +597,10 @@ Widget _conEspecial() {
       
           child: SwitchListTile(
         value: especial,
-        title: Text('¿Adoptaria a una mascota en condiciones especiales?',style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
+        title: Text('¿Le darias la oportunidad a los menos afortunados?, es decir, a aquellas mascotas con algún tipo de discapacidad o enfermedad',
+        style: TextStyle(color:primario,fontWeight:FontWeight.bold),
+        textAlign: TextAlign.justify,
+        ),
         activeColor: secundario,
         onChanged: (value)=> setState((){
           especial = value;
@@ -635,9 +638,7 @@ void _subir() async {
     if ( !formKey.currentState.validate() ) return;
     formKey.currentState.save();
     if ( _sexoR=="Macho"||_sexoR=="Hembra" ) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enviando... espere unso segundos"),
-      ));
+      
       try{
       String usuario=FirebaseAuth.instance.currentUser.email.toString();
       await  AfinidadesHelper.saveAfinidades( usuario, _personalidadR ,_estiloVidaR 
@@ -651,9 +652,7 @@ void _subir() async {
       }
       }
     Navigator.of(context).pushReplacementNamed('mascotasAfines');
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Estas son tus mascotas mas afines !"),
-                ));           
+         
     
   }
   showError(String errormessage){

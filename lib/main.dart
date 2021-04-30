@@ -1,7 +1,9 @@
 import 'package:benepet/src/pages/home/afinidades_user.dart';
 import 'package:benepet/src/pages/home/config_user.dart';
+import 'package:benepet/src/pages/home/info_user_page.dart';
 import 'package:benepet/src/pages/home/procesar_afinidades.dart';
 import 'package:benepet/src/pages/home/test_concientizacion_user.dart';
+import 'package:benepet/src/pages/home_admin/info_admin.dart';
 import 'package:benepet/src/pages/home_admin/mascotas_admin.dart';
 import 'package:benepet/src/pages/home_admin/perfiles_admin.dart';
 import 'package:flutter/material.dart';
@@ -51,12 +53,13 @@ class MyApp extends StatelessWidget {
           'reset'         :(BuildContext context) =>ResetPasswordScreen(),
 
           'mascotasAdmin' :(BuildContext context) =>MascotasAdmin(),  
-          'perfilesAdmin' :(BuildContext context) =>PerfilesAdmin(),   
+          'perfilesAdmin' :(BuildContext context) =>PerfilesAdmin(), 
+          'conocenos' :(BuildContext context) =>InformacionAdmin(),     
 
           'test'          :(BuildContext context) => TestConcientizacion(),  
-          'afinidades'    :(BuildContext context) => AfinidadesUser(),  
+          'afinidades'    :(BuildContext context) => AfinidadesUser(), 
+          'conocenosUser'    :(BuildContext context) => InformacionUser(),  
           'mascotasAfines'    :(BuildContext context) => ProcesarAfinidadesUser(), 
-          //'perfilUser'    :(BuildContext context) =>PerfilUser(),      
           'configUser'    :(BuildContext context) =>ConfigUser(),           
         }
       ),

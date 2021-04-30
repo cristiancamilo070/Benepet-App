@@ -47,7 +47,7 @@ Widget build(BuildContext context) {
       title: Text('Test concientización'),
       elevation: 7,
       centerTitle: true,
-      shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(20.0)),
+      shape: RoundedRectangleBorder(borderRadius:  BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),),
       backgroundColor: terciario.withOpacity(0.8),        
     ),
     drawer: MenuUserWidget(),

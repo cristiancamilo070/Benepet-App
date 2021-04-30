@@ -48,7 +48,7 @@ return WelcomeBackground(
       SizedBox(height: size.height*0.1,),
 //-----------------------------------LOGO INICIAL---------------------------------------------------------------      
      SvgPicture.asset(
-          'assets/svg/pet-friendly.svg',
+          'assets/svg/jaco.svg',
           height: size.height*0.45,
       )
       ,
@@ -70,13 +70,13 @@ return WelcomeBackground(
 
               SizedBox(height: size.height*0.02,),
 
-              Text('BENEPET es una aplicación movil desarrollada para la prevención del abandono animal!',
+              Text('BENEPET es una aplicación movil desarrollada para encontrar compatibilidades entre adoptantes y mascotas.',
                 style: TextStyle(
                   color: primario,
                   letterSpacing: 1.2,
                   fontSize: 16.0,
                   height: 1.3),
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
               )
             ],
           ),
@@ -88,32 +88,31 @@ return WelcomeBackground(
       Container(
         child: Row(
           children: <Widget>[
-          SizedBox(width: _width/2.8),
+          SizedBox(width: _width/3.5),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-            primary: secundario,
-            onSurface: terciario,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
-            elevation: 3,
-            textStyle: TextStyle(color: background),
-            padding: EdgeInsets.all(0.0)
-            ),
-            onPressed: () {Navigator.pushNamed(context, 'login');},
-            child: Container(
-             height:_height /20,
-             alignment: Alignment.center,
-             width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
-             decoration: BoxDecoration(
-               borderRadius: BorderRadius.all(Radius.circular(20.0)),
-               gradient: LinearGradient(
-               colors: <Color>[terciario.withOpacity(1), terciario],
-               ),
-              ),
-              child: Text('Ingresar',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
-            ),
-          ), 
+        style: ElevatedButton.styleFrom(
+          primary: primario,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+          elevation: 3,
+          textStyle: TextStyle(color: background),
+          padding: EdgeInsets.all(0.0)
+      ),
+      onPressed: (){
+       Navigator.of(context).pushNamed('home');
+      },
+      child: Ink(
+        decoration:BoxDecoration(
+        gradient: LinearGradient(colors: [terciario.withOpacity(0.6), terciario]),
+        borderRadius: BorderRadius.circular(20)) ,
+        child:Container(
+          constraints: BoxConstraints.tightFor(width: _width/3.0, height: _height/18),//tamaño botón
+          alignment: Alignment.center,
+          child: Text('Ingresar ',style: TextStyle(fontSize: _large? 19: (_medium? 19: 13), fontWeight: FontWeight.bold, color: Colors.white))
+        )
+      ),
+  ), 
 
-          SizedBox(width: _width/6,),
+          SizedBox(width: _width/9,),
 
           SvgPicture.asset('assets/svg/fast-forward.svg',color: primario,height: _height*0.09)
               ]
@@ -159,7 +158,7 @@ Widget _pagina2(BuildContext context) {
       SizedBox(height: size.height*0.1,),
 //-----------------------------------LOGO INICIAL---------------------------------------------------------------      
      SvgPicture.asset(
-          'assets/svg/cat.svg',
+          'assets/svg/happy.svg',
           height: size.height*0.45,
       )
       ,
@@ -199,31 +198,29 @@ Widget _pagina2(BuildContext context) {
       Container(
         child: Row(
           children: <Widget>[
-          SizedBox(width: _width/2.8),
-          // ignore: deprecated_member_use
-         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-          primary: secundario,
-          onSurface: terciario,
+      SizedBox(width: _width/3.5),
+      ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: primario,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
           elevation: 3,
           textStyle: TextStyle(color: background),
           padding: EdgeInsets.all(0.0)
-          ),
-          onPressed: () {Navigator.pushNamed(context, 'signin');},
-          child: Container(
-          height:_height /20,
+      ),
+      onPressed: (){
+       Navigator.of(context).pushNamed('home');
+      },
+      child: Ink(
+        decoration:BoxDecoration(
+        gradient: LinearGradient(colors: [terciario.withOpacity(0.6), terciario]),
+        borderRadius: BorderRadius.circular(20)) ,
+        child:Container(
+          constraints: BoxConstraints.tightFor(width: _width/3.0, height: _height/18),//tamaño botón
           alignment: Alignment.center,
-          width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            gradient: LinearGradient(
-            colors: <Color>[terciario.withOpacity(1), terciario],
-            ),
-            ),
-            child: Text('Regístrate',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
-          ),
-        ), 
+          child: Text('Ingresar ',style: TextStyle(fontSize: _large? 19: (_medium? 19: 13), fontWeight: FontWeight.bold, color: Colors.white))
+        )
+      ),
+  ), 
              
           SizedBox(width: _width/6),
 
@@ -309,31 +306,29 @@ Widget _pagina3(BuildContext context) {
 //-----------------------------------BOTON ---------------------------------------------------------------
       Container(
         child:Center(
-          // ignore: deprecated_member_use
           child: 
-         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-          primary: secundario,
-          onSurface: terciario,
+          ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: primario,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
           elevation: 3,
           textStyle: TextStyle(color: background),
           padding: EdgeInsets.all(0.0)
-          ),
-          onPressed: () {Navigator.pushNamed(context, 'signin');},
-          child: Container(
-          height:_height /20,
+      ),
+      onPressed: (){
+       Navigator.of(context).pushNamed('home');
+      },
+      child: Ink(
+        decoration:BoxDecoration(
+        gradient: LinearGradient(colors: [terciario.withOpacity(0.6), terciario]),
+        borderRadius: BorderRadius.circular(20)) ,
+        child:Container(
+          constraints: BoxConstraints.tightFor(width: _width/3.0, height: _height/18),//tamaño botón
           alignment: Alignment.center,
-          width: _large? _width/4 : (_medium? _width/3.75: _width/3.5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            gradient: LinearGradient(
-            colors: <Color>[terciario.withOpacity(1), terciario],
-            ),
-            ),
-            child: Text('Regístrate',style: TextStyle(fontSize: _large? 14: (_medium? 12: 10))),
-          ),
-        ), 
+          child: Text('Ingresar ',style: TextStyle(fontSize: _large? 19: (_medium? 19: 13), fontWeight: FontWeight.bold, color: Colors.white))
+        )
+      ),
+  ), 
         ) 
        ),
           
@@ -343,15 +338,16 @@ Widget _pagina3(BuildContext context) {
           // padding: EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(
             children: <Widget>[
+              SizedBox(height: 10,),
               SizedBox(
                 width: size.height*0.26,
                               child: Text(
-                  'Continuar con el ingreso como rescatista',
+                  'Una vez ingreses podrás postularte como rescatista',
                   style: TextStyle(
                       color: primario,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 1.2,
-                      fontSize:_large? 14: (_medium? 12: 10),
+                      fontSize:_large? 14: (_medium? 14: 10),
                       height: 1.3
                       ),
                   textAlign: TextAlign.center,

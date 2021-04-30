@@ -76,4 +76,30 @@ class UserHelper{
     });
     }
   }
+
+static cambiarRol(String userEmail) async{
+    final userRef =_db.collection("Users").doc(userEmail);//uid o email
+
+    await userRef.update({
+       "role":"admin",
+       //"unistalled":false,
+       });
+
+  }
+  static cambiarNombre(String nombre,String userEmail) async{
+    final userRef =_db.collection("Users").doc(userEmail);//uid o email
+
+    await userRef.update({
+       "name":nombre,
+       //"unistalled":false,
+       });
+  }
+  static solicitudRescatista(String numero,String userEmail) async{
+    final userRef =_db.collection("Users").doc(userEmail);//uid o email
+
+    await userRef.update({
+       "phone":numero,
+       });
+  }
+
 }

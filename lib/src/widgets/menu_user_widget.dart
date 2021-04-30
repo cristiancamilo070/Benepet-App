@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MenuUserWidget extends StatelessWidget {
       //COLORES--------------------
@@ -9,8 +10,9 @@ class MenuUserWidget extends StatelessWidget {
   final Color background=Color(0XFFf5f5f5);
   
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  signOut()async{
+  signOut(BuildContext context) async{
     _auth.signOut();
+    Navigator.of(context).pushReplacementNamed('home');
   }
 
   @override
@@ -20,7 +22,23 @@ class MenuUserWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         DrawerHeader(
-          child: Container(),
+          child: Container(
+            alignment: Alignment.center,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  spreadRadius: 0.0,
+                  color: Colors.black26,
+                  offset: Offset(1.0, 10.0),
+                  blurRadius: 20.0),
+            ],
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+            child: SvgPicture.asset(
+              'assets/svg/profile.svg',
+           ),
+          ),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/img/menu-img.jpg'),
@@ -34,31 +52,37 @@ class MenuUserWidget extends StatelessWidget {
         title: Text('Mascotas Disponibles'),
         onTap: (){Navigator.pushReplacementNamed(context,'home');},
         ),
+        Divider(thickness: 2),
+        ListTile(
+        leading: Icon(Icons.verified_user,color: terciario),
+        title: Text('Conócenos'),
+        onTap: (){Navigator.pushReplacementNamed(context,'conocenosUser');},
+        ),
+        Divider(thickness: 2),
         ListTile(
         leading: Icon(Icons.thumbs_up_down_outlined,color: terciario),
         title: Text('Test de concientización'),
         onTap: (){Navigator.pushReplacementNamed(context,'test');},
         ),
+        Divider(thickness: 2),
         ListTile(
         leading: Icon(Icons.mood_sharp,color: terciario),
         title: Text('Encontrar mascota ideal'),
         onTap: (){Navigator.pushReplacementNamed(context,'afinidades');},
         ),
+        Divider(thickness: 2),
          ListTile(
-        leading: Icon(Icons.person_sharp,color: terciario),
-        title: Text('Perfil'),
-        onTap: (){Navigator.pushReplacementNamed(context,'perfilusuario');},
-        ),
-         ListTile(
-        leading: Icon(Icons.pages,color: terciario),
+        leading: Icon(Icons.toggle_on_rounded,color: terciario),
         title: Text('Configuraciones'),
         onTap: (){Navigator.pushReplacementNamed(context,'configUser');},
         ),
+        Divider(thickness: 2),
          ListTile(
-        leading: Icon(Icons.pages,color: terciario),
+        leading: Icon(Icons.logout,color: terciario),
         title: Text('Cerrar sesión'),
-        onTap: (){signOut();},
-        )
+        onTap: (){signOut(context );},
+        ),
+        Divider(thickness: 2),
       ],
     ),
   );

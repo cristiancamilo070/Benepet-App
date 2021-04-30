@@ -81,7 +81,7 @@ Widget _crearAppbar(String idMascota){
   return  SliverAppBar(
     elevation: 2.0,
     backgroundColor: _colorAppbar(),
-    expandedHeight: 300.0,
+    expandedHeight: 500.0,
     stretch: true,//test hisone 
     floating: false,
     pinned: true,

@@ -21,7 +21,7 @@ class SplashScreenState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    Navigator.of(context).pushNamed('/');
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   @override
@@ -53,9 +53,9 @@ class SplashScreenState extends State<SplashScreen>
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               //Powered by
-              Padding(padding: EdgeInsets.only(bottom: 30.0),child:new SvgPicture.asset('assets/svg/sandbox.svg',height: 30.0,fit: BoxFit.scaleDown,))
-
-
+              Padding(padding: EdgeInsets.only(bottom: 30.0),
+              child:new Image(image: AssetImage('assets/img/fundacioncorazon.png'),height: 45.0,fit: BoxFit.scaleDown,)
+              )
             ],),
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,

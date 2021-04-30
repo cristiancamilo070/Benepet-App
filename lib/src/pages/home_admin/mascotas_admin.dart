@@ -68,11 +68,14 @@ class _MascotasAdminState extends State<MascotasAdmin> {
     
     return Scaffold(
         appBar: AppBar(
-          title: Text('Añadir mascotas'),
+          title: Center(child: Text('Añadir mascotas')),
+          elevation: 7,
+          centerTitle: true,
+          shape: RoundedRectangleBorder(borderRadius:  BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),),
           backgroundColor: secundario,
           actions: <Widget>[
           IconButton(
-            icon: Icon( Icons.photo_size_select_actual ),
+            icon: Icon( Icons.add_photo_alternate ),
             onPressed:(){_seleccionarFoto();} ,
           ),
           IconButton(
@@ -115,11 +118,11 @@ class _MascotasAdminState extends State<MascotasAdmin> {
                     _tamanoDrop(),
                     SizedBox(height: 5.0,),
                     _saludCheck(),
+                    _conEspecial(),
                     _aptoNinos(),
                     _conPerros(),
                     _conGatos(),
                     _viviendaCheck(),
-                    _conEspecial(),
                     _boton()
                   ],
                 ),
@@ -648,7 +651,9 @@ return Card(
 Widget _conEspecial() {
     return SwitchListTile(
       value: especial,
-      title: Text('¿Cuenta con una condición especial?',style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
+      title: Text('Si la mascota tiene algún tipo de enfermedad (VIF, VLFe u otras) o alguna discapacidad, marca esta casilla.',
+      textAlign: TextAlign.justify,
+      style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
       activeColor: terciario,
       onChanged: (value)=> setState((){
         especial = value;
@@ -797,7 +802,7 @@ _mostrarFoto() {
         );
       }if(photo==null){
       return Image.asset(
-        "assets/img/no-image.png", 
+        "assets/img/no_image2.jpg"
         );
       }
     }
@@ -816,7 +821,7 @@ _procesarImagen(ImageSource origin) async {
  
     final pickedFile = await _picker.getImage(
       source: origin,
-      //imageQuality: 15
+      imageQuality: 40
     );
     
     photo = File(pickedFile.path);

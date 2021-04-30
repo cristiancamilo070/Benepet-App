@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MenuAdminWidget extends StatelessWidget {
       //COLORES--------------------
@@ -9,8 +10,9 @@ class MenuAdminWidget extends StatelessWidget {
   final Color background=Color(0XFFf5f5f5);
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  signOut()async{
+  signOut(BuildContext context )async{
     _auth.signOut();
+    Navigator.of(context).pushReplacementNamed('home');
   }
 
   @override
@@ -20,7 +22,23 @@ class MenuAdminWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         DrawerHeader(
-          child: Container(),
+          child: Container(
+            alignment: Alignment.center,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  spreadRadius: 0.0,
+                  color: Colors.black26,
+                  offset: Offset(1.0, 10.0),
+                  blurRadius: 20.0),
+            ],
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+            child: SvgPicture.asset(
+              'assets/svg/profile.svg',
+           ),
+          ),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/img/menu-img.jpg'),
@@ -30,25 +48,35 @@ class MenuAdminWidget extends StatelessWidget {
           ),
         ),
         ListTile(
-        leading: Icon(Icons.pages,color: terciario),
-        title: Text('Home'),
+        leading: Icon(Icons.pets_sharp,color: secundario),
+        title: Text('Todas las mascotas'),
         onTap: (){Navigator.pushReplacementNamed(context,'home');},
         ),
+        Divider(thickness: 2),
         ListTile(
-        leading: Icon(Icons.pages,color: terciario),
+        leading: Icon(Icons.add_box_outlined,color: secundario),
         title: Text('Añadir mascotas'),
         onTap: (){Navigator.pushReplacementNamed(context,'mascotasAdmin');},
         ),
-         ListTile(
-        leading: Icon(Icons.pages,color: terciario),
+        Divider(thickness: 2,),
+        ListTile(
+        leading: Icon(Icons.people_alt_outlined, color: secundario),
         title: Text('Perfiles'),
         onTap: (){Navigator.pushReplacementNamed(context,'perfilesAdmin');},
         ),
-         ListTile(
-        leading: Icon(Icons.pages,color: terciario),
+        Divider(thickness: 2,),
+        ListTile(
+        leading: Icon(Icons.verified_user,color: secundario),
+        title: Text('Nosotros'),
+        onTap: (){Navigator.pushReplacementNamed(context,'conocenos');},
+        ),
+        Divider(thickness: 2,),
+        ListTile(
+        leading: Icon(Icons.login_outlined,color: secundario),
         title: Text('Cerrar sesión'),
-        onTap: (){signOut();},
-        )
+        onTap: (){signOut(context);},
+        ),
+        Divider(thickness: 2,),
       ],
     ),
   );
