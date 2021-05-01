@@ -1,5 +1,6 @@
 import 'package:benepet/src/utils/userAnimals.dart';
 import 'package:benepet/src/widgets/home_bg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -100,12 +101,13 @@ Widget _crearAppbar(String idMascota){
           fontSize: 24.0),
       ),
       centerTitle: true,
-      background: FadeInImage(
-        placeholder: AssetImage('assets/img/jar-loading.gif'),
-        image: NetworkImage( urlT.isNotEmpty? urlT:'https://res.cloudinary.com/cristiancruz070/image/upload/v1619056653/tqmy8sjozeeu0pda8sr2.png'),
-        fadeInDuration: Duration(milliseconds:150 ),
+      background: CachedNetworkImage(
+        imageUrl: urlT.isNotEmpty? urlT:'https://res.cloudinary.com/cristiancruz070/image/upload/v1619056653/tqmy8sjozeeu0pda8sr2.png',
+        placeholder: (context, url) { return Image(image: AssetImage('assets/img/jar-loading.gif')); },
+        //errorWidget: (context, url, error) => Icon(Icons.error),
+        fadeInDuration: Duration(milliseconds: 150),
         fit: BoxFit.cover,
-        ),
+      )
     ),
   );
 }

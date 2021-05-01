@@ -17,27 +17,24 @@ class MenuUserWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String foto;
+    if (_auth.currentUser.photoURL!=null) {
+      foto=_auth.currentUser.photoURL.replaceFirst('s96', 's400');
+    }
     return Drawer(
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
         DrawerHeader(
-          child: Container(
-            alignment: Alignment.center,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0.0,
-                  color: Colors.black26,
-                  offset: Offset(1.0, 10.0),
-                  blurRadius: 20.0),
-            ],
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
-            child: SvgPicture.asset(
-              'assets/svg/profile.svg',
-           ),
+          child: CircleAvatar(
+            backgroundImage:(foto!=null)? NetworkImage(foto):AssetImage("assets/img/gamer.png") ,
+            backgroundColor: background,
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            ),
           ),
           decoration: BoxDecoration(
             image: DecorationImage(

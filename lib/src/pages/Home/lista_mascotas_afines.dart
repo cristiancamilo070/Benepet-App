@@ -2,6 +2,7 @@ import 'package:benepet/src/pages/home/detalles_afines_mascotas.dart';
 import 'package:benepet/src/widgets/home_bg.dart';
 import 'package:benepet/src/widgets/menu_user_widget.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion_card/expansion_card.dart';
 import 'package:flutter/material.dart';
@@ -123,13 +124,14 @@ return StreamBuilder(
           background: (mascota['url'] == null )    
                 ? Image(image: AssetImage('assets/img/no-image.png'))
                 :ClipRRect(
-                  child: FadeInImage(
-                    image: NetworkImage( mascota['url']),
-                    placeholder: AssetImage('assets/img/jar-loading.gif'),
-                    height: 300.0,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child:CachedNetworkImage(
+                      imageUrl: mascota['url'],
+                      placeholder: (context, url) { return Image(image: AssetImage('assets/img/jar-loading.gif')); },
+                      //errorWidget: (context, url, error) => Icon(Icons.error),
+                      height:300 ,
+                      width:double.infinity ,
+                      fit: BoxFit.cover,
+                  ) 
                 ),
             title: Container(
             child: Column(

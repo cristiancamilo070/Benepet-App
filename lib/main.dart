@@ -73,7 +73,7 @@ class MainScreen extends StatelessWidget
     @override
   Widget build(BuildContext context) {
 
-    return StreamBuilder<User>(
+    return StreamBuilder(//<user>>
       stream: FirebaseAuth.instance.authStateChanges(),
       builder:(BuildContext context,AsyncSnapshot snapshot){
         if (snapshot.hasData&&snapshot.data!=null) {

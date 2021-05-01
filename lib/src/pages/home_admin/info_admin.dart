@@ -86,7 +86,7 @@ return Container(
       margin: EdgeInsets.only(right: 15,left: 15),
       child: FadeInImage(
         image: AssetImage(imagen),
-         placeholder:AssetImage("assets/img/no-image.png") ,
+         placeholder:AssetImage("assets/img/no_image2.jpg") ,
       ),
   );
 }

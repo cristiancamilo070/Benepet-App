@@ -22,7 +22,6 @@ class _MascotasAdminState extends State<MascotasAdmin> {
 
   final formKey     = GlobalKey<FormState>();
   final productoProvider = new AnimalsHelper();
-  //final productoProvider = new ProductosProvider();
     
   File photo;
   
@@ -123,7 +122,14 @@ class _MascotasAdminState extends State<MascotasAdmin> {
                     _conPerros(),
                     _conGatos(),
                     _viviendaCheck(),
-                    _boton()
+                    SizedBox(height: 15.0,),
+                    Center(child: Text('Para añadir una mascota: ',style: TextStyle(color:primario,fontWeight:FontWeight.bold,fontSize: 16))),
+                    SizedBox(height: 5.0,),
+                    _boton(),
+                    SizedBox(height: 5.0,),
+                    Center(child: Text('Para actualizar unicamente los datos de una mascota recuerda que debes agregar todos los datos completos exeptuando la imagen ya que esta no se remplazará a menos que publiques de nuevo al peludito.',textAlign: TextAlign.center,style: TextStyle(color:primario,fontWeight:FontWeight.bold,fontSize: 16))),
+                    SizedBox(height: 5.0,),
+                    _boton2()
                   ],
                 ),
               ),
@@ -687,12 +693,9 @@ Widget _conEspecial() {
   }
 
 void _submit() async {
-    //apData=_procesarDara(apJugueton, apAmoroso, apTranquilo, apEducado, apActivo, apDormilon, apTimido);
     if ( !formKey.currentState.validate() ) return;
     formKey.currentState.save();
-    if ( photo != null ) {
-
-      
+    if ( photo != null &&idController.text!=null&&nombreController.text!=null&&edadController.text!=null) {
       try{
       User madrina=FirebaseAuth.instance.currentUser;
       if (await AnimalsHelper.verificarAnimal(idController.text)==false) {//agregado ???
@@ -722,12 +725,11 @@ void _submit() async {
         print(e);}
     } else {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("No olvides añadir una imagen"),
+                  content: Text("Para añadir una mascota agrega una foto, id, nombre y edad"),
                 )); 
     }
-            
-
 }
+
 showAlertDialog(BuildContext context) {
   Widget cancelButton = ElevatedButton(
     child: Text("Cancelar"),
@@ -741,7 +743,7 @@ showAlertDialog(BuildContext context) {
     onPressed:  () { Navigator.of(context).pop();},
   );
   Widget continueButton = ElevatedButton(
-    child: Text("Actualizar",style:TextStyle(fontWeight:FontWeight.bold) ),
+    child: Text("Remplazar",style:TextStyle(fontWeight:FontWeight.bold) ),
     style: ElevatedButton.styleFrom(
          primary: terciario,
          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
@@ -762,7 +764,7 @@ showAlertDialog(BuildContext context) {
                           vivCasa, vivApto, vivFinca, especial, _photoUrl); 
        Navigator.of(context).pushReplacementNamed('home');
        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("La mascota actualizado correctamente"),
+                  content: Text("La mascota se remplazó correctamente"),
                 )); 
       }catch(e){
         showError(e.message);
@@ -788,7 +790,67 @@ showAlertDialog(BuildContext context) {
     },
   );
 }
+//-----------------------BOTON ACTUALIZAR -------------------------------
+  Widget _boton2() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: primario,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
+        elevation: 3,
+        textStyle: TextStyle(color: background),
+        padding: EdgeInsets.all(0.0)
+    ),
+    onPressed: (){
+      _submit2();
+    },
+    child: Ink(
+      decoration:BoxDecoration(
+      gradient: LinearGradient(colors: [terciario.withOpacity(0.6), terciario]),
+      borderRadius: BorderRadius.circular(20)) ,
+      child:Container(
+        constraints: BoxConstraints.tightFor(width: _width/2.5, height: _height/18),//tamaño botón
+        alignment: Alignment.center,
+        child: Text('Actualizar',style: TextStyle(fontSize: _large? 19: (_medium? 15: 13), fontWeight: FontWeight.bold, color: Colors.white))
+      )
+    ),
+  );
+  }
 
+void _submit2() async {
+    if ( !formKey.currentState.validate() ) return;
+    formKey.currentState.save();
+    if (idController.text!=null) {
+      try{
+      User madrina=FirebaseAuth.instance.currentUser;
+      if (await AnimalsHelper.verificarAnimal(idController.text)==true) {//agregado ???
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Actualizando... espera unos segundos."),
+      ));
+        await AnimalsHelper.actualizarMascota(madrina, idController.text, nombreController.text, disponible,
+                          _especieInit,  _sexoInit, edadController.text,_edadCorInit,
+                          apJugueton, apAmoroso, apTranquilo, apEducado, apActivo, apDormilon, apTimido,
+                          historiaController.text,
+                          saludDes, saludVac, saludEste, saludVirales,
+                          _tamanoInit, aptoNinos, conPerros,  conGatos,
+                          vivCasa, vivApto, vivFinca, especial); 
+       Navigator.of(context).pushReplacementNamed('home');
+       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("La mascota se ha actualizado"),
+                ));   
+      }else{
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("El ID de esta mascota no existe, verifica."),
+                )); 
+      }
+     }catch(e){
+        showError(e.message);
+        print(e);}
+    } else {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Para actualizar una mascota se necesita el ID."),
+                )); 
+    }
+}
 
 _mostrarFoto() {
     if (_photoUrl != null) {

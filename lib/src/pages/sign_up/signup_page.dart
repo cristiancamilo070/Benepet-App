@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:benepet/main.dart';
 import 'package:benepet/src/bloc/auth_bloc.dart';
 import 'package:benepet/src/pages/home/home_page.dart';
+import 'package:benepet/src/pages/home/info_user_page.dart';
 import 'package:benepet/src/utils/userHelper.dart';
 import 'package:benepet/src/widgets/login_bg.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
@@ -76,18 +77,19 @@ class _SignupState extends State<SignUpScreen> {
     try{
       UserCredential user =await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
       User updateUser=FirebaseAuth.instance.currentUser;
-      UserHelper.saveUser(user.user, nombreCompleto);
+      await UserHelper.saveUser(user.user, nombreCompleto);
       //poner user como documento en USERHELPER
       if(user!= null){ 
-         updateUser.updateProfile(displayName:nombreCompleto);
-        Navigator.of(context).pushReplacement(// puse este await posible quitar 
+        await updateUser.updateProfile(displayName:nombreCompleto);
+        
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => MainScreen(),
+            //builder: (context) => MainScreen(),
+            builder: (context) => InformacionUser(),
           ),
         );
       }
      }
-
       catch(e){
         showError(e.message);
         print(e);

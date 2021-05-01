@@ -103,6 +103,68 @@ class AnimalsHelper{
       await mascotaRef.set(mascotaData);
     }  
   }
+
+
+  static actualizarMascota(User madrina,String idMascota,String nombre,
+                  bool disponible,String especie, String sexo, String edad,String edadComplemento,
+                  bool apJugueton,bool apAmoroso,bool apTranquilo,bool apEducado,bool apActivo,bool apDormilon,bool apTimido,                
+                  String historia,
+                  bool saludDes,bool saludVac,bool saludEste,bool saludVirales,
+                  String tamano, bool aptoNinos,bool conPerros, bool conGatos,
+                  bool vivCasa, bool vivApto, bool vivFinca,
+                  bool especial) async{
+final mascotaRef =_db.collection("Mascotas").doc(idMascota);//uid o email
+
+  if ((await mascotaRef.get()).exists) {
+    await mascotaRef.update({
+      "nombre": nombre,
+      "disponible":disponible,
+      "especie": especie,
+      "sexo": sexo,
+      "edad":edad,
+      "edadComplemento":edadComplemento,
+      
+      "jugueton": apJugueton,
+      "amoroso": apAmoroso,
+      "tranquilo": apTranquilo,
+      "educado": apEducado,
+      "activo": apActivo,
+      "dormilon": apDormilon,
+      "timido": apTimido,
+
+      "historia":historia,
+
+      "desparasitado": saludDes,
+      "vacunado": saludVac,
+      "esterilizado": saludEste,
+      "virales": saludVirales,
+      
+      "tamano": tamano,
+      
+      "ninos": aptoNinos,
+      "conperros": conPerros,
+      "congatos": conGatos,
+      
+      "casa": vivCasa,
+      "apto": vivApto,
+      "finca": vivFinca,
+      "especial": especial
+      });
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   static verificarAnimal(String idMascota) async{
     var a=false;
     final mascotaRef =_db.collection("Mascotas").doc(idMascota);
@@ -140,7 +202,7 @@ class AnimalsHelper{
 
 
 
-  void deleteMascota(String id)async{//TEST LATER
+  void deleteMascota(String id)async{
   
   final db = FirebaseFirestore.instance; 
 

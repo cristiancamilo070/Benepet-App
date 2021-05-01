@@ -6,6 +6,7 @@ import 'package:benepet/src/utils/userAnimals.dart';
 import 'package:benepet/src/widgets/home_bg.dart';
 import 'package:benepet/src/widgets/menu_user_widget.dart';
 import 'package:benepet/src/widgets/resposive_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion_card/expansion_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   final productoProvider = new AnimalsHelper();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   User user;
   bool isloggedin= false;
   StreamSubscription<User> loginStateSubscription;//cancelar el listener 
@@ -52,7 +54,6 @@ class _HomePageState extends State<HomePage> {
     });
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -169,15 +170,16 @@ return StreamBuilder(
           borderRadius: 30,
           margin: EdgeInsets.all(9),
           background: (mascota['url'] == null )    
-                ? Image(image: AssetImage('assets/img/no-image.png'))
+                ? Image(image: AssetImage('assets/img/no_image2.jpg'))
                 :ClipRRect(
-                  child: FadeInImage(
-                    image: NetworkImage( mascota['url']),
-                    placeholder: AssetImage('assets/img/jar-loading.gif'),
-                    height: 300.0,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child: CachedNetworkImage(
+                      imageUrl: mascota['url'],
+                      placeholder: (context, url) { return Image(image: AssetImage('assets/img/jar-loading.gif')); },
+                      //errorWidget: (context, url, error) => Icon(Icons.error),
+                      height:300 ,
+                      width:double.infinity ,
+                      fit: BoxFit.cover,
+                  )
                 ),
             title: Container(
               

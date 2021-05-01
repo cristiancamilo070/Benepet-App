@@ -21,23 +21,16 @@ class AuthBloc {
 
     //Firebase Sign in
     final result = await authService.signInWithCredential(credential);
+    print('${result.user.displayName}');
+      if(result!= null){
+        UserHelper.saveUser(result.user, result.user.displayName);
+      }
 
-   print('${result.user.displayName}');
-    if(result!= null){
-      UserHelper.saveUser(result.user, result.user.displayName);
+    } catch(error){
+      print(error);
     }
-
-  } catch(error){
-    print(error);
-  }
-
   }
   logout() async {
     authService.logout();
   }
 }
-
-
-// if(result!= null){
-    //   UserHelper.saveUser(result.user, result.user.displayName);
-    //   }
