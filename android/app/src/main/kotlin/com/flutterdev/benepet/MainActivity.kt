@@ -1,4 +1,4 @@
-package com.example.benepet
+package com.flutterdev.benepet
 
 import io.flutter.embedding.android.FlutterActivity
 

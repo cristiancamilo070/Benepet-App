@@ -28,6 +28,58 @@
       ],
       "api_key": [
         {
+          "current_key": "AIzaSyDVN8U9Ze05ZMip2F0NhZVLCEy SH41wBro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352348789428-252g4p2s3o00t3ooactj84tcbiskj2ee.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "352348789428-mt01luold1niobrkjrgqer5qmvc0k9jr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.benepet"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352348789428:android:08ed6abf5b33837f5ad5e1",
+        "android_client_info": {
+          "package_name": "com.flutterdev.benepet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352348789428-90rpml70ts9mfc3hm9g9d44teogl1hcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterdev.benepet",
+            "certificate_hash": "e83ed7133ea3398ad9e7fd504c259b4c2c67e4f0"
+          }
+        },
+        {
+          "client_id": "352348789428-97qpedpv30svek1jbsufe0nrdk916rif.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterdev.benepet",
+            "certificate_hash": "563b1b1357c742b192f33f435bb0952bec8c0b6c"
+          }
+        },
+        {
+          "client_id": "352348789428-252g4p2s3o00t3ooactj84tcbiskj2ee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
           "current_key": "AIzaSyDVN8U9Ze05ZMip2F0NhZVLCEySH41wBro"
         }
       ],
@@ -37,6 +89,13 @@
             {
               "client_id": "352348789428-252g4p2s3o00t3ooactj84tcbiskj2ee.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "352348789428-mt01luold1niobrkjrgqer5qmvc0k9jr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.benepet"
+              }
             }
           ]
         }
