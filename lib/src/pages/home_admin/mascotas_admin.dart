@@ -657,7 +657,7 @@ return Card(
 Widget _conEspecial() {
     return SwitchListTile(
       value: especial,
-      title: Text('Si la mascota tiene algún tipo de enfermedad (VIF, VLFe u otras) o alguna discapacidad, marca esta casilla.',
+      title: Text('Si la mascota tiene algún tipo de condición (VIF, VLFe u otras) o alguna discapacidad, marca esta casilla.',
       textAlign: TextAlign.justify,
       style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
       activeColor: terciario,

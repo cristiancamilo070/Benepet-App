@@ -106,7 +106,7 @@ class _AfinidadesUserState extends State<AfinidadesUser> {
                 _descriptionText('Personalidad'),
                 _textos('¿Cómo te consideras en cuanto a personalidad?',Icons.person_add_rounded),
                 _personalidadDrop(),
-                _textos('¿Cómo dirias que es tu estilo de vida?',Icons.sports_basketball_sharp),
+                _textos('¿Cómo dirías que es tu estilo de vida?',Icons.sports_basketball_sharp),
                 _estiloVidaDrop(),
                 _textos('¿Qué haces en tus tiempos libres?',Icons.sports_basketball_sharp),
                 _aficionesDrop(),
@@ -114,13 +114,13 @@ class _AfinidadesUserState extends State<AfinidadesUser> {
                 //vivienda
                 _logo('assets/svg/building.svg'),
                 _descriptionText('Vivienda y familia'),
-                _textos('¿En donde vives?',Icons.home_work_rounded),
+                _textos('¿En dónde vives?',Icons.home_work_rounded),
                 _viviendaDrop(),
-                _textos('¿Su vivienda tiene patio, terraza o jardín?',Icons.home_outlined),
+                _textos('¿Tu vivienda tiene patio, terraza o jardín?',Icons.home_outlined),
                 _patioDrop(),
-                _textos('¿Con quién vive? ',Icons.person),
+                _textos('¿Con quién vives? ',Icons.person),
                 _familiaDrop(),
-                _textos('¿En su casa hay niños?',Icons.family_restroom_rounded),
+                _textos('¿En tu casa hay niños?',Icons.family_restroom_rounded),
                 _ninosDrop(),
               
                 //vivienda
@@ -130,7 +130,7 @@ class _AfinidadesUserState extends State<AfinidadesUser> {
                 _mascotasActuales(),
                 _textos('Si la respuesta anterior fue sí, ¿Con cuáles? ',Icons.pets),
                 _mascotasActualesEspDrop(),
-                _textos('¿Ha tenido mascotas anteriormente?  ',Icons.folder_shared_outlined),
+                _textos('¿Has tenido mascotas anteriormente?  ',Icons.folder_shared_outlined),
                 _mascotasAnteriores(),
 
                 //preferencias

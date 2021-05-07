@@ -63,6 +63,7 @@ class _MascotaDettallesState extends State<MascotaDettalles> {
                 _descripcion(idMascota),
                 _aptitudesMostrar(),
                 _saludMostrar(),
+                _conEspecial(),
                 _viviendaMostrar(),
                 _compatibilidadesMostrar(),
                 SizedBox(height: 5.0,),
@@ -282,7 +283,7 @@ return Card(
                   onChanged: (value)=> setState((){}),
                   dense: false,
                   activeColor: _colorCardTitulo(),
-                  title: Text("Dormilon",style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
+                  title: Text("Dormilón",style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
                 ),
               ), 
             ],
@@ -297,7 +298,7 @@ return Card(
                   onChanged: (value)=> setState((){}),
                   dense: false,
                   activeColor: _colorCardTitulo(),
-                  title: Text("Timido",style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
+                  title: Text("Tímido",style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
                 ),
               ),   
             ],
@@ -382,6 +383,21 @@ return Card(
   ),
 );
 }
+Widget _conEspecial() {
+    return Card(
+      elevation: 2,
+  shape: BeveledRectangleBorder(borderRadius:  BorderRadius.circular(10.0),side: BorderSide(color: Colors.white, width: 1) ),
+  color: Colors.white,
+          child: SwitchListTile(
+        value: especialT,
+        title: Text('Si esta casilla está activa, la mascota cuenta con algún tipo de discapacidad o condición tal como VIF+, VILeF+ (Gatos) u otras.',
+        textAlign: TextAlign.justify,
+        style: TextStyle(color:primario,fontWeight:FontWeight.bold)),
+        activeColor: _colorCardTitulo(),
+        onChanged: (value)=> setState((){}),
+      ),
+    );
+  }
 
 //--------------------------------CheckBox vivienda-------------------------------
 Widget _viviendaMostrar(){

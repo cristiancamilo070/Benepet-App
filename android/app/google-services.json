@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDVN8U9Ze05ZMip2F0NhZVLCEy SH41wBro"
+          "current_key": "AIzaSyDVN8U9Ze05ZMip2F0NhZVLCEySH41wBro"
         }
       ],
       "services": {
@@ -71,6 +71,14 @@
           "android_info": {
             "package_name": "com.flutterdev.benepet",
             "certificate_hash": "563b1b1357c742b192f33f435bb0952bec8c0b6c"
+          }
+        },
+        {
+          "client_id": "352348789428-fa73fghh8eat3c274q2oqfgr170uiohc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterdev.benepet",
+            "certificate_hash": "f72625b134b7d941ceebf801ee78153d5f5f485e"
           }
         },
         {

@@ -59,7 +59,7 @@ class _InformacionUserState extends State<InformacionUser> {
               Divider(),
               _titulos("Pasos para adopción"),
               _cardPasos(primario, "Paso 1", "Leer", "Los peluditos se entregan con formulario de adopción a mayores de edad para la ciudad de Bogotá. No se entrega para zonas con sobrepoblación canina y felina y por cada adopción, se solicita un aporte de 80.000 pesos para la madrina del peludo adoptado los cuales son destinados a cubrir los primeros gastos de recuperación que se requieren al iniciar el rescate de un nuevo peludito, sigue con el paso 2"),
-              _cardPasos(Color(0XFFff75a0), "Paso 2", "Realizar test de compatibilidades ", "Una vez realices el test de compatibilidad de afinidades de BENEPET podras ver todas las caracteristicas de dicho peludo y podras acceder al formulario de adopción, luego sigue al paso 3."),
+              _cardPasos(Color(0XFFff75a0), "Paso 2", "Realizar test de compatibilidades ", "Una vez realices el test de compatibilidad de afinidades de BENEPET podrás ver todas las caracteristicas de dicho peludo y podrás acceder al formulario de adopción, luego sigue al paso 3."),
               _cardPasosBoton(Color(0XFFffc93c), "Paso 3", "Diligenciar formulario", "Diligencia nuestra solicitud de adopción que podrás descargar una vez realices el paso 2 o directamente desde el botón de abajo, recuerda que esta la deberas enviar al correo electrónico adopcionescorazonpeludito@gmail.com (para poder descargar el archivo en tu celular debes tener un lector de Word). Como sugerencia, por favor, indícanos 3 opciones por si alguna de las elecciones ya se encuentra en proceso Una vez recibida la solicitud, en un plazo máximo de 3 días hábiles, te daremos respuesta al correo y nos pondremos en contacto para continuar con el proceso.*Ten presente que si la solicitud de adopción no está completamente diligenciada, no será tenida en cuenta."
                               ,"Solicitud de adopción","https://www.corazonpeludito.org/wp-content/uploads/2020/05/Solicitud-de-adopcion-Corazon-Peludito-2020.docx"),
               _cardPasos(Color(0XFFe9896a), "Paso 4", "Donación", "El aporte de la adopción (80.000 pesos) es destinado para el rescatista que ha invertido su tiempo, amor y dedicación para poder entregar un peludo en óptimas condiciones. Es un aporte mínimo y simbólico que hacen las personas que adoptan con el fin de ayudar a iniciar un nuevo rescate. Todos nuestros peludos son entregados esterilizados, desparasitados y recuperados"),
@@ -67,6 +67,9 @@ class _InformacionUserState extends State<InformacionUser> {
               SizedBox(height: 15,),
               Center(child: Text("Escríbenos a Whatsapp: ",style: GoogleFonts.alfaSlabOne(color:primario,fontSize: 19 ),)),
               _whatsapp(),
+              SizedBox(height: 15,),
+              Center(child: Text("Tambien puedes visitar nuestra página web: ",style: GoogleFonts.alfaSlabOne(color:primario,fontSize: 19 ),textAlign: TextAlign.center,)),
+              _webPage(),
               SizedBox(height: 15,),
               Center(child: Text("BENEPET, desarrollado por ",style: GoogleFonts.alfaSlabOne(color:primario,fontSize: 9 ),)),
              // Center(child: ),
@@ -311,7 +314,28 @@ Widget _whatsapp(){
   ),
      );
 }
-
+Widget _webPage(){
+  return 
+     Center(
+       child: Container(
+        margin: EdgeInsets.only(top: _height / 120.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[            
+            CircleAvatar(
+              backgroundColor: primario.withOpacity(0.2),
+              radius: 40,
+              child:  GestureDetector(
+                onTap: (){launch("https://www.corazonpeludito.org/"); },
+                child:Image(image: AssetImage("assets/img/fundacioncorazon.png"),),
+                ) 
+              )
+            ] 
+          ) 
+    
+  ),
+     );
+}
 _devlogo(){
  return  Center(
    child: Container(

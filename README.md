@@ -1,6 +1,6 @@
 # Benepet Aplicación movil desarrollada en Flutter
 
-A new Flutter project.
+Hopefully one of the oficial versions.
 
 ## Getting Started
 

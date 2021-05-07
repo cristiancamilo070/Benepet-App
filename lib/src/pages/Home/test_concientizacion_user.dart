@@ -77,7 +77,7 @@ Widget build(BuildContext context) {
                 _textos('¿Puede cubrir económicamente sus necesidades como alimento, veterinario, vacunas, juguetes, medicinas y/o elementos de higiene? ',Icons.attach_money), 
                 _preguntaq6(),
                 SizedBox(height: 10.0,),
-                _textos('¿Sabrias qué hacer la mascota durante vacaciones y/o viajes no planeados? ',Icons.airplanemode_active), 
+                _textos('¿Sabrías qué hacer con la mascota durante vacaciones y/o viajes no planeados? ',Icons.airplanemode_active), 
                 _preguntaq7(),
                 SizedBox(height: 10.0,),
                 _textos('¿Estoy en condición de afrontar posibles problemas de salud y comportamiento de una mascota? ',Icons.medical_services_outlined), 

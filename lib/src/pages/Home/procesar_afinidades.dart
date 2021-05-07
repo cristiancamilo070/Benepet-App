@@ -70,7 +70,7 @@ return Scaffold(
                     _descriptionText("A continuación podrás conocer tus mascotas afines"),
                     SizedBox(height: 30,),
 
-                    _descriptionText2("Este proceso puede tarder unos seguntos, espere un poco."),
+                    _descriptionText2("Este proceso puede tarder unos segundos, por favor espera un poco."),
                     SizedBox(height: 30,),
 
                    _boton(),
