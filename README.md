@@ -1,6 +1,10 @@
 # Benepet Aplicación movil desarrollada en Flutter
 
+<<<<<<< HEAD
 Official version
+=======
+Official versions.
+>>>>>>> 00bc3039cc3b0ce5c6fe4da0fe0548e7ec152a6d
 
 This app was created to improve and innovate the way adopting works, finding compatibilities between owner and pet. Also this app worked as a degree project to me, the only developer of the app. _Benepet is a mobile application which gives you the opportunity to find your ideal pet, evaluating your affinities and that of the pets, the pets shown in Benepet are governed by the adoption processes of the Fundación Corazón Peludito in the city of Bogotá, Colombia_.
 #### Here some few image about the proyect 
