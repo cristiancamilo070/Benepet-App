@@ -7,37 +7,38 @@ This app was created to improve and innovate the way adopting works, finding com
 <img src="assets\logo\1.JPG" width="250" height="490"><img src="assets\logo\2.JPG" width="250" height="490"><img src="assets\logo\3.JPG" width="250" height="490">
 
 ### In this app i used: 
-cupertino_icons: ^0.1.3
+##### **Icons**
+* cupertino_icons: ^0.1.3
 
 ##### **state managment**     
-provider: ^5.0.0
+* provider: ^5.0.0
 
 ##### **google**      
-firebase_core: ^1.0.1   
-cloud_firestore: ^1.0.3     
-firebase_auth: ^1.0.1       
-google_sign_in: ^5.0.1      
+* firebase_core: ^1.0.1   
+* cloud_firestore: ^1.0.3     
+* firebase_auth: ^1.0.1       
+* google_sign_in: ^5.0.1      
 
 ##### **sign in button**      
-flutter_signin_button: ^1.1.0
+* flutter_signin_button: ^1.1.0
 
 ##### **info**        
-device_info: ^2.0.0     
-package_info: ^2.0.0        
-deep_collection: ^1.0.1     
+* device_info: ^2.0.0     
+* package_info: ^2.0.0        
+* deep_collection: ^1.0.1     
 
 ##### **cool front**          
-expansion_card: ^0.1.0      
-google_fonts: ^2.0.0        
+* expansion_card: ^0.1.0      
+* google_fonts: ^2.0.0        
 
 ##### **image**       
-image_picker: ^0.7.4        
-mime_type: ^1.0.0           
-cached_network_image: ^3.0.0            
-flutter_svg:            
+* image_picker: ^0.7.4        
+* mime_type: ^1.0.0           
+* cached_network_image: ^3.0.0            
+* flutter_svg:            
 
 ##### **http**        
-http:           
-http_parser: ^4.0.0     
-url_launcher: ^6.0.3            
-change_app_package_name: ^1.0.0         
+* http:           
+* http_parser: ^4.0.0     
+* url_launcher: ^6.0.3            
+* change_app_package_name: ^1.0.0         
